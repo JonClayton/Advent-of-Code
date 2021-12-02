@@ -1,5 +1,8 @@
+import utilities
+
+
 def first(a_string):
-    steps = convert_to_x_y(a_string)
+    steps = utilities.convert_to_action_tuples(a_string)
     forward = 0
     down = 0
     for pair in steps:
@@ -9,7 +12,7 @@ def first(a_string):
 
 
 def second(a_string):
-    steps = convert_to_x_y(a_string)
+    steps = utilities.convert_to_action_tuples(a_string)
     forward = 0
     down = 0
     aim = 0
@@ -20,21 +23,7 @@ def second(a_string):
     return forward * down
 
 
-def convert_to_x_y(a_string):
-    result = []
-    string_list = a_string.split("\n")
-    for item in string_list:
-        pair = item.split()
-        if pair[0] == 'down':
-            result.append([0, int(pair[1])])
-        if pair[0] == 'up':
-            result.append([0, -int(pair[1])])
-        if pair[0] == 'forward':
-            result.append([int(pair[1]), 0])
-    return result
-
-
-the_big_string = """forward 2
+string_input = """forward 2
 down 4
 down 3
 up 4
