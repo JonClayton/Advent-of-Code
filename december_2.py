@@ -2,7 +2,7 @@ import utilities
 
 
 def first(a_string):
-    steps = utilities.convert_to_action_tuples(a_string)
+    steps = convert_to_action_tuples(a_string)
     forward = 0
     down = 0
     for pair in steps:
@@ -12,7 +12,7 @@ def first(a_string):
 
 
 def second(a_string):
-    steps = utilities.convert_to_action_tuples(a_string)
+    steps = convert_to_action_tuples(a_string)
     forward = 0
     down = 0
     aim = 0
@@ -21,6 +21,20 @@ def second(a_string):
         aim += pair[1]
         down += aim * pair[0]
     return forward * down
+
+
+def convert_to_action_tuples(a_list_of_actions):
+    result = []
+    string_list = utilities.convert_to_array(a_list_of_actions)
+    for item in string_list:
+        x_and_y = item.split()
+        if x_and_y[0] == 'down':
+            result.append((0, int(x_and_y[1])))
+        if x_and_y[0] == 'up':
+            result.append((0, -int(x_and_y[1])))
+        if x_and_y[0] == 'forward':
+            result.append((int(x_and_y[1]), 0))
+    return result
 
 
 string_input = """forward 2
