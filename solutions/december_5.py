@@ -21,9 +21,9 @@ def solve_challenge(lines, is_diagonal_allowed=False):
         for point in get_points_from_line_endpoints(line_endpoints, is_diagonal_allowed):
             if point in seen:
                 if point not in seen_twice:
-                    seen_twice.setdefault(point, True)
+                    seen_twice.update({point: True})
             else:
-                seen.setdefault(point, True)
+                seen.update({point: True})
     return len(seen_twice.keys())
 
 
@@ -67,7 +67,7 @@ def get_slope_increment_and_count(line_endpoints, is_diagonal_allowed):
         increment = ((x2 - x1) // length, 0)
     elif is_diagonal_allowed:
         length = abs(x2 - x1)
-        increment = ((x2 - x1) // length,  (y2 - y1) // length)
+        increment = ((x2 - x1) // length, (y2 - y1) // length)
     else:
         return None, 0
     return increment, length + 1
