@@ -1,6 +1,4 @@
-from classes import Solution
-from inputs.inputs_3 import actual_input
-from inputs.inputs_3 import test_input
+from python.solutions.classes import Solution
 
 
 def first_solution(lines):
@@ -16,7 +14,7 @@ def second_solution(lines):
     return calculate_binary_value_of_string(oxygen_generator_rating) * calculate_binary_value_of_string(co2_scrubber_rating)
 
 
-solution = Solution(3, test_input, actual_input, 198, first_solution, 230, second_solution)
+solution = Solution('../inputs/inputs_3.json', first_solution, second_solution)
 
 
 def calculate_binary_value(binary_array):

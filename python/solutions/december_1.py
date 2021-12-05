@@ -1,6 +1,4 @@
-from classes import Solution
-from inputs.inputs_1 import actual_input
-from inputs.inputs_1 import test_input
+from python.solutions.classes import Solution
 
 
 def first_solution(lines):
@@ -11,7 +9,7 @@ def second_solution(lines):
     return count_that_exceed_previous_observation(lines, 3)
 
 
-solution = Solution(1, test_input, actual_input, 7, first_solution, 5, second_solution)
+solution = Solution('../inputs/inputs_1.json', first_solution, second_solution)
 
 
 def count_that_exceed_previous_observation(num_list, count_back=1):

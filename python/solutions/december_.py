@@ -1,6 +1,6 @@
-from classes import Solution
-from inputs.inputs_5 import actual_input
-from inputs.inputs_5 import test_input
+from python.solutions.classes import Solution
+from python.inputs.inputs_5 import actual_input
+from python.inputs.inputs_5 import test_input
 
 
 def first_solution(lines):

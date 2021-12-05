@@ -1,6 +1,4 @@
-from classes import Solution
-from inputs.inputs_2 import actual_input
-from inputs.inputs_2 import test_input
+from python.solutions.classes import Solution
 
 
 def first_solution(a_list_of_actions):
@@ -25,7 +23,7 @@ def second_solution(a_list_of_actions):
     return forward * down
 
 
-solution = Solution(2, test_input, actual_input, 150, first_solution, 900, second_solution)
+solution = Solution('../inputs/inputs_2.json', first_solution, second_solution)
 
 
 def convert_to_action_tuples(a_list_of_actions):
