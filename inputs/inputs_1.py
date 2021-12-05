@@ -1,27 +1,15 @@
-import utilities
+test_input = """199
+200
+208
+210
+200
+207
+240
+269
+260
+263"""
 
-
-def first(string_list_of_numbers):
-    input_array = utilities.convert_to_array(string_list_of_numbers)
-    answer = 0
-    previous = input_array[0]
-    for current in input_array:
-        if current > previous:
-            answer += 1
-        previous = current
-    return answer
-
-
-def second(string_list_of_numbers):
-    input_array = utilities.convert_to_array(string_list_of_numbers)
-    answer = 0
-    for current in range(3, len(input_array)):
-        if input_array[current] > input_array[current - 3]:
-            answer += 1
-    return answer
-
-
-string_input = """109
+actual_input = """109
 117
 118
 98

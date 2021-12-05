@@ -1,43 +1,12 @@
-import utilities
+test_input = """forward 5
+down 5
+forward 8
+up 3
+down 8
+forward 2"""
 
 
-def first(a_string):
-    steps = convert_to_action_tuples(a_string)
-    forward = 0
-    down = 0
-    for pair in steps:
-        forward += pair[0]
-        down += pair[1]
-    return forward * down
-
-
-def second(a_string):
-    steps = convert_to_action_tuples(a_string)
-    forward = 0
-    down = 0
-    aim = 0
-    for pair in steps:
-        forward += pair[0]
-        aim += pair[1]
-        down += aim * pair[0]
-    return forward * down
-
-
-def convert_to_action_tuples(a_list_of_actions):
-    result = []
-    string_list = utilities.convert_to_array(a_list_of_actions)
-    for item in string_list:
-        x_and_y = item.split()
-        if x_and_y[0] == 'down':
-            result.append((0, int(x_and_y[1])))
-        if x_and_y[0] == 'up':
-            result.append((0, -int(x_and_y[1])))
-        if x_and_y[0] == 'forward':
-            result.append((int(x_and_y[1]), 0))
-    return result
-
-
-string_input = """forward 2
+actual_input = """forward 2
 down 4
 down 3
 up 4

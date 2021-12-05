@@ -1,68 +1,17 @@
-import utilities
+test_input = """00100
+11110
+10110
+10111
+10101
+01111
+00111
+11100
+10000
+11001
+00010
+01010"""
 
-
-def first(a_string):
-    observations = utilities.convert_to_array(string_input)
-    result_array = most_common_array(observations)
-    gamma = calculate_binary_value(result_array)
-    epsilon = calculate_binary_value((invert_binary_array(result_array)))
-    return gamma * epsilon
-
-
-def second(a_string):
-    observations = utilities.convert_to_array(string_input)
-    oxygen_generator_rating = find_most_similar(observations, 1)
-    co2_scrubber_rating = find_most_similar(observations, 0)
-    return calculate_binary_value(convert_string_to_binary_array(oxygen_generator_rating)) * calculate_binary_value(convert_string_to_binary_array(co2_scrubber_rating))
-
-
-def calculate_binary_value(binary_array):
-    result = 0
-    for index in range(len(binary_array)):
-        result += binary_array[index] * 2 ** (len(binary_array) - index - 1)
-    return result
-
-
-def convert_string_to_binary_array(binary_string):
-    result_array = []
-    for item in binary_string:
-        result_array.append(1 if item == '1' else 0)
-    return result_array
-
-
-def find_most_similar(candidates, is_inverted):
-    index = 0
-    while len(candidates) > 1:
-        target_array = invert_binary_array(most_common_array(candidates)) if is_inverted else most_common_array(candidates)
-        meeting_condition = []
-        for candidate in candidates:
-            if int(candidate[index]) == target_array[index]:
-                meeting_condition.append(candidate)
-        candidates = meeting_condition
-        index += 1
-    return candidates[0]
-
-
-def invert_binary_array(binary_array):
-    result = []
-    for value in binary_array:
-        result.append(0 if value == 1 else 1)
-    return result
-
-
-def most_common_array(observations):
-    result_array = []
-    majority = len(observations) / 2
-    for index in range(len(observations[0])):
-        count_1 = 0
-        for observation in observations:
-            if observation[index] == '1':
-                count_1 += 1
-        result_array.append(1 if count_1 >= majority else 0)
-    return result_array
-
-
-string_input = """100101001000
+actual_input = """100101001000
 011101110101
 000001010101
 001001010001
