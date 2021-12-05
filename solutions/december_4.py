@@ -2,6 +2,8 @@ from classes import Solution
 from inputs.inputs_4 import actual_input
 from inputs.inputs_4 import test_input
 
+from utilities import convert_string_list_to_ints
+
 
 def first_solution(lines):
     draw_list = convert_string_list_to_ints(lines[0].split(','))
@@ -32,13 +34,6 @@ def board_sum(board):
     result = 0
     for row in board:
         result += sum(row)
-    return result
-
-
-def convert_string_list_to_ints(string_list):
-    result = []
-    for item in string_list:
-        result.append(int(item))
     return result
 
 

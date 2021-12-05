@@ -11,4 +11,4 @@ def second_solution(lines):
     return 0
 
 
-solution = Solution(None, test_input, actual_input, None, first_solution, None, second_solution)
+solution = Solution(6, test_input, actual_input, None, first_solution, None, second_solution)
