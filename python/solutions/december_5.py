@@ -3,16 +3,16 @@ from python.solutions.utilities import convert_string_list_to_ints
 
 
 def first_solution(lines):
-    return solve_challenge(lines, False)
+    return general_solution(lines, False)
 
 
 def second_solution(lines):
-    return solve_challenge(lines, True)
+    return general_solution(lines, True)
 
 
 # LOL the "grid" is a dictionary because we don't care about the cells that no line touches!
 # not so LOL, python forces you to use a dictionary when all you want is a hash table
-def solve_challenge(lines, is_diagonal_allowed=False):
+def general_solution(lines, is_diagonal_allowed=False):
     seen = {}
     seen_twice = {}
     for line_endpoints in convert_lines_to_line_endpoints_list(lines):
