@@ -1,5 +1,5 @@
-from python.solutions.classes import Solution
-from python.solutions.utilities import convert_string_list_to_ints
+from python.classes import Solution
+from python.utilities import convert_string_list_to_ints
 import numpy as np
 import math
 from functools import reduce
@@ -13,7 +13,7 @@ def second_solution(lines):
     return general_solution(lines, True)
 
 
-solution = Solution('../inputs/inputs_7.json', first_solution, second_solution)
+solution = Solution('inputs/inputs_7.json', first_solution, second_solution)
 
 
 def general_solution(lines, is_increasing):

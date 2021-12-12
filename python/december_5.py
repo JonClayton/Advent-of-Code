@@ -1,5 +1,5 @@
-from python.solutions.classes import Solution
-from python.solutions.utilities import convert_string_list_to_ints
+from python.classes import Solution
+from python.utilities import convert_string_list_to_ints
 
 
 def first_solution(lines):
@@ -25,7 +25,7 @@ def general_solution(lines, is_diagonal_allowed=False):
     return len(seen_twice.keys())
 
 
-solution = Solution('../inputs/inputs_5.json', first_solution, second_solution)
+solution = Solution('inputs/inputs_5.json', first_solution, second_solution)
 
 
 def add_increment_to_point(line_endpoints, increment):

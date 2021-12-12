@@ -6,6 +6,7 @@ using System.Text.Json;
 
 namespace AdventOfCode.Solutions
 {
+
     public abstract class Solution
     {
         private readonly List<string> _actualLines;
@@ -20,12 +21,12 @@ namespace AdventOfCode.Solutions
         {
             _createdAt = DateTimeOffset.UtcNow;
             _solution = GetType().Name;
-            var jsonString = File.ReadAllText($"../../../../../inputs/inputs_{_solution.Last()}.json");
+            var jsonString = File.ReadAllText($"../../../../inputs/inputs_{_solution.Last()}.json");
             var inputs = JsonSerializer.Deserialize<Inputs>(jsonString) ?? new Inputs();
-            _actualLines = inputs.ActualInput.Split(Environment.NewLine).ToList();
+            _actualLines = inputs.ActualInput.Split("\n").ToList();
             _firstTestResult = inputs.FirstTestResult;
             _secondTestResult = inputs.SecondTestResult;
-            _testLines = inputs.TestInput.Split(Environment.NewLine).ToList();
+            _testLines = inputs.TestInput.Split("\n").ToList();
         }
 
         public void StatusReport()
@@ -58,7 +59,7 @@ namespace AdventOfCode.Solutions
             Console.WriteLine(
                 $"Test for {_solution} part {part}: failed with actual={_result} and expected={expectedResult}");
         }
-        
+
         protected abstract int FirstSolution(List<string> lines);
         protected abstract int SecondSolution(List<string> lines);
     }

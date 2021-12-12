@@ -1,5 +1,5 @@
-from python.solutions.classes import Solution
-from python.solutions.utilities import convert_string_list_to_ints
+from python.classes import Solution
+from python.utilities import convert_string_list_to_ints
 
 
 def first_solution(lines):
@@ -10,7 +10,7 @@ def second_solution(lines):
     return general_solution(lines, 256)
 
 
-solution = Solution('../inputs/inputs_6.json', first_solution, second_solution)
+solution = Solution('inputs/inputs_6.json', first_solution, second_solution)
 
 
 def general_solution(lines, generations):

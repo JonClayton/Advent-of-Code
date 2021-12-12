@@ -1,6 +1,6 @@
-from python.solutions.classes import Solution
+from python.classes import Solution
 
-from python.solutions.utilities import convert_string_list_to_ints
+from python.utilities import convert_string_list_to_ints
 
 
 def first_solution(lines):
@@ -25,7 +25,7 @@ def second_solution(lines):
                 boards.remove(board)
 
 
-solution = Solution('../inputs/inputs_4.json', first_solution, second_solution)
+solution = Solution('inputs/inputs_4.json', first_solution, second_solution)
 
 
 def board_sum(board):

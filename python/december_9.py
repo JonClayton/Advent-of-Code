@@ -1,6 +1,6 @@
-from python.solutions.classes import Solution
-from python.solutions.utilities import list_print
-from python.solutions.utilities import convert_string_list_to_ints
+from python.classes import Solution
+from python.utilities import list_print
+from python.utilities import convert_string_list_to_ints
 from functools import reduce
 from collections import Counter
 
@@ -72,6 +72,6 @@ class Solution9(Solution):
         return self.lists[row][col]
 
 
-solution = Solution9('../inputs/inputs_9.json')
+solution = Solution9('inputs/inputs_9.json')
 
 

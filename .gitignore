@@ -1,1 +1,11 @@
+# JetBrains
 .idea/
+
+# Python
+venv/
+
+# Ruby
+
+# .NET
+bin/
+obj/
