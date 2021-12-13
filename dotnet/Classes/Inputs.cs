@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace AdventOfCode.Solutions
+namespace AdventOfCode2021.Classes
 {
     public class Inputs
     {
@@ -9,9 +9,9 @@ namespace AdventOfCode.Solutions
         [JsonPropertyName("day")]
         public int Day { get; set; }
         [JsonPropertyName("first_test_result")]
-        public int FirstTestResult { get; set; }
+        public long FirstTestResult { get; set; }
         [JsonPropertyName("second_test_result")]
-        public int SecondTestResult { get; set; }
+        public long SecondTestResult { get; set; }
         [JsonPropertyName("test_input")]
         public string TestInput { get; set; }
     }

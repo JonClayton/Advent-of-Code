@@ -11,7 +11,7 @@ def second_solution(lines):
     # return reduce(lambda x: BustedDisplay(x).value(), lines)
     return 0
 
-solution = Solution('inputs/inputs_8.json', first_solution, second_solution)
+solution = Solution('inputs/inputs_08.json', first_solution, second_solution)
 
 #
 # def add_value_for_line(previous_total, line):

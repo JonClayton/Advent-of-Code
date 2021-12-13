@@ -72,6 +72,6 @@ class Solution9(Solution):
         return self.lists[row][col]
 
 
-solution = Solution9('inputs/inputs_9.json')
+solution = Solution9('inputs/inputs_09.json')
 
 

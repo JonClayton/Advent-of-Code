@@ -14,7 +14,7 @@ def second_solution(lines):
     return calculate_binary_value_of_string(oxygen_generator_rating) * calculate_binary_value_of_string(co2_scrubber_rating)
 
 
-solution = Solution('inputs/inputs_3.json', first_solution, second_solution)
+solution = Solution('inputs/inputs_03.json', first_solution, second_solution)
 
 
 def calculate_binary_value(binary_array):

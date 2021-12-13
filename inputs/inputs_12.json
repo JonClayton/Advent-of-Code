@@ -1,0 +1,7 @@
+{
+  "actual_input": "dr-of\nstart-KT\nyj-sk\nstart-gb\nof-start\nIJ-end\nVT-sk\nend-sk\nVT-km\nKT-end\nIJ-of\ndr-IJ\nyj-IJ\nKT-yj\ngb-VT\ndr-yj\nVT-of\nPZ-dr\nKT-of\nKT-gb\nof-gb\ndr-sk\ndr-VT",
+  "day": 12,
+  "first_test_result": 226,
+  "second_test_result": 3509,
+  "test_input": "fs-end\nhe-DX\nfs-he\nstart-DX\npj-DX\nend-zg\nzg-sl\nzg-pj\npj-he\nRW-he\nfs-DX\npj-RW\nzg-RW\nstart-pj\nhe-WI\nzg-he\npj-fs\nstart-RW"
+}

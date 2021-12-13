@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AdventOfCode.Solutions
+namespace AdventOfCode2021.Utilities
 {
     public static class Extensions
     {
@@ -11,6 +11,14 @@ namespace AdventOfCode.Solutions
             Enumerable.Range(0, nums.Count)
                 .Reverse()
                 .Select(n => Enumerable.Repeat(10, n + 1).Product()/10)
+                .Zip(nums)
+                .Select(z => z.First * z.Second)
+                .Sum();
+        
+        public static int ToInteger(this List<byte> nums) => 
+            Enumerable.Range(0, nums.Count)
+                .Reverse()
+                .Select(n => Enumerable.Repeat(2, n + 1).Product()/2)
                 .Zip(nums)
                 .Select(z => z.First * z.Second)
                 .Sum();

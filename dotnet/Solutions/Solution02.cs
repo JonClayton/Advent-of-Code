@@ -1,14 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
+using AdventOfCode2021.Utilities;
 
-namespace AdventOfCode.Solutions
+namespace AdventOfCode2021.Solutions
 {
-    public class Solution2 : Solution
+    public class Solution02 : Solution
     {
-        protected override int FirstSolution(List<string> lines) => 
+        protected override long FirstSolution(List<string> lines) => 
             MapLinesToActions(lines).Aggregate(StartingLocation(), CalculateLocation).Take(2).Product();
 
-        protected override int SecondSolution(List<string> lines) => 
+        protected override long SecondSolution(List<string> lines) => 
             MapLinesToActions(lines).Aggregate(StartingLocation(), CalculateLocationWithAim).Take(2).Product();
         
         private static (int, int) CalculateAction(string[] strings)

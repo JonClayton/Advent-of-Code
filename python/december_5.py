@@ -25,7 +25,7 @@ def general_solution(lines, is_diagonal_allowed=False):
     return len(seen_twice.keys())
 
 
-solution = Solution('inputs/inputs_5.json', first_solution, second_solution)
+solution = Solution('inputs/inputs_05.json', first_solution, second_solution)
 
 
 def add_increment_to_point(line_endpoints, increment):

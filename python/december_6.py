@@ -10,7 +10,7 @@ def second_solution(lines):
     return general_solution(lines, 256)
 
 
-solution = Solution('inputs/inputs_6.json', first_solution, second_solution)
+solution = Solution('inputs/inputs_06.json', first_solution, second_solution)
 
 
 def general_solution(lines, generations):

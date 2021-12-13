@@ -1,16 +1,17 @@
 using System.Collections.Generic;
 using System.Linq;
+using AdventOfCode2021.Utilities;
 
-namespace AdventOfCode.Solutions
+namespace AdventOfCode2021.Solutions
 {
-    public class Solution8 : Solution
+    public class Solution08 : Solution
     {
         private static readonly List<int> _uniqueCharacterCounts = new() {2, 3, 4, 7};
 
-        protected override int FirstSolution(List<string> lines) =>
+        protected override long FirstSolution(List<string> lines) =>
             lines.Select(SecondHalf).SelectMany(CharacterCount).Where(DigitIsKnownFromCharacterCount).Count();
 
-        protected override int SecondSolution(List<string> lines) =>
+        protected override long SecondSolution(List<string> lines) =>
             lines.Select(line => new BustedDisplay(line).InstallAdapter().InterpretReading()).Sum();
 
         private static IEnumerable<int> CharacterCount(IEnumerable<string> strings) => strings.Select(s => s.Length);

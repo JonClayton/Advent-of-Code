@@ -25,7 +25,7 @@ def second_solution(lines):
                 boards.remove(board)
 
 
-solution = Solution('inputs/inputs_4.json', first_solution, second_solution)
+solution = Solution('inputs/inputs_04.json', first_solution, second_solution)
 
 
 def board_sum(board):

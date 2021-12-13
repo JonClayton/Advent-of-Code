@@ -13,7 +13,7 @@ def second_solution(lines):
     return general_solution(lines, True)
 
 
-solution = Solution('inputs/inputs_7.json', first_solution, second_solution)
+solution = Solution('inputs/inputs_07.json', first_solution, second_solution)
 
 
 def general_solution(lines, is_increasing):
