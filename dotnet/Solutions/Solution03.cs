@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AdventOfCode2021.Utilities;
+
 namespace AdventOfCode2021.Solutions;
 
 public class Solution03 : Solution
@@ -20,8 +21,10 @@ public class Solution03 : Solution
         return CalculateBinaryValue(oxygenGeneratorRating) * CalculateBinaryValue(c02ScrubberRating);
     }
 
-    private static int CalculateBinaryValue(string str) =>
-        str.Select(c => c.Equals('1') ? (byte)1 : (byte)0).ToList().ToInteger();
+    private static int CalculateBinaryValue(string str)
+    {
+        return str.Select(c => c.Equals('1') ? (byte)1 : (byte)0).ToList().ToInteger();
+    }
 
     private static string FindMostSimilar(List<string> candidates, bool isInverted)
     {
@@ -38,12 +41,16 @@ public class Solution03 : Solution
         return candidates.First();
     }
 
-    private static string InvertBinary(string binaries) =>
-        new string(binaries.Select(b => b.Equals('1') ? '0' : '1').ToArray());
+    private static string InvertBinary(string binaries)
+    {
+        return new(binaries.Select(b => b.Equals('1') ? '0' : '1').ToArray());
+    }
 
-    private static string MostCommonAtEachIndex(List<string> observations) =>
-        new (observations.First().Select((_, index) => observations.Count(observation =>
+    private static string MostCommonAtEachIndex(List<string> observations)
+    {
+        return new(observations.First().Select((_, index) => observations.Count(observation =>
             observation[index].Equals('1')) >= observations.Count / 2.0
             ? '1'
             : '0').ToArray());
+    }
 }
