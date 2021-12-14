@@ -51,7 +51,8 @@ public class CaveComplex
             Caves.TryAdd(name1, new Cave(name1, name1 == name1.ToLower()));
             var cave0 = Caves[name0];
             var cave1 = Caves[name1];
-            cave0.Connections.Add(cave1);
+            if (cave0.Name != "start") cave1.Connections.Add(cave0);
+            if (cave1.Name != "start") cave0.Connections.Add(cave1);
             cave1.Connections.Add(cave0);
         }
     }
@@ -88,7 +89,6 @@ public class CaveComplex
                 if (!path.Contains(cave)) return true;
                 if (!canVisitTwice) return false;
                 return !path.Where(c => c.IsSmall).GroupBy(c => c.Name).Any(g => g.Count() > 1);
-                // return path.Count(c => c.Equals(cave)) < 2;
             }
         }
     }

@@ -1,7 +1,7 @@
 {
-  "actual_input": "1111",
+  "actual_input": "FNFPPNKPPHSOKFFHOFOC\n\nVS -> B\nSV -> C\nPP -> N\nNS -> N\nBC -> N\nPB -> F\nBK -> P\nNV -> V\nKF -> C\nKS -> C\nPV -> N\nNF -> S\nPK -> F\nSC -> F\nKN -> K\nPN -> K\nOH -> F\nPS -> P\nFN -> O\nOP -> B\nFO -> C\nHS -> F\nVO -> C\nOS -> B\nPF -> V\nSB -> V\nKO -> O\nSK -> N\nKB -> F\nKH -> C\nCC -> B\nCS -> C\nOF -> C\nFS -> B\nFP -> H\nVN -> O\nNB -> N\nBS -> H\nPC -> H\nOO -> F\nBF -> O\nHC -> P\nBH -> S\nNP -> P\nFB -> C\nCB -> H\nBO -> C\nNN -> V\nSF -> N\nFC -> F\nKK -> C\nCN -> N\nBV -> F\nFK -> C\nCF -> F\nVV -> B\nVF -> S\nCK -> C\nOV -> P\nNC -> N\nSS -> F\nNK -> V\nHN -> O\nON -> P\nFH -> O\nOB -> H\nSH -> H\nNH -> V\nFF -> B\nHP -> B\nPO -> P\nHB -> H\nCH -> N\nSN -> P\nHK -> P\nFV -> H\nSO -> O\nVH -> V\nBP -> V\nCV -> P\nKP -> K\nVB -> N\nHV -> K\nSP -> N\nHO -> P\nCP -> H\nVC -> N\nCO -> S\nBN -> H\nNO -> B\nHF -> O\nVP -> K\nKV -> H\nKC -> F\nHH -> C\nBB -> K\nVK -> P\nOK -> C\nOC -> C\nPH -> H",
   "day": 14,
-  "first_test_result": -1,
-  "second_test_result": -1,
-  "test_input": "11111"
+  "first_test_result": 1588,
+  "second_test_result": 2188189693529,
+  "test_input": "NNCB\n\nCH -> B\nHH -> N\nCB -> H\nNH -> C\nHB -> C\nHC -> B\nHN -> C\nNN -> C\nBH -> H\nNC -> B\nNB -> B\nBN -> B\nBB -> N\nBC -> B\nCC -> N\nCN -> C"
 }
