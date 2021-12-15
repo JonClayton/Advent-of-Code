@@ -1,56 +1,52 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using AdventOfCode2021.Classes;
 using AdventOfCode2021.Utilities;
 
 namespace AdventOfCode2021.Solutions;
 
 public class Solution14 : Solution
 {
-    protected override long FirstSolution(List<string> lines) => GeneralSolution(lines, 10);
+    protected override long FirstSolution(List<string> inputLines) => RunPolymerFactory(inputLines, 10);
 
-    protected override long SecondSolution(List<string> lines) => GeneralSolution(lines, 40);
+    protected override long SecondSolution(List<string> inputLines) => RunPolymerFactory(inputLines, 40);
     
-    private static long GeneralSolution(List<string> lines, int cycles)
+    private static long RunPolymerFactory(List<string> inputLines, int cycleCount) => 
+        new PolymerFactory(inputLines).Cycle(cycleCount).Result();
+
+    private class PolymerFactory : CohortCounter<string>
     {
-        var pairInsertionMap = new Dictionary<string, (string, string)>();
-        var pairCounts = new Dictionary<string, long>();
-        lines.GetRange(2, lines.Count -2).ForEach(line =>
+        private readonly Dictionary<string, (string, string)> _pairInsertionMap = new();
+        private readonly string _wrapAroundPair;
+
+        public PolymerFactory(List<string> lines)
         {
-            var input = line[..2];
-            pairCounts.Add(input, 0);
-            pairInsertionMap.Add(input, (string.Concat(line.AsSpan(0,1), line.AsSpan(6,1)), string.Concat(line.AsSpan(6,1), line.AsSpan(1,1))));
+            _wrapAroundPair = string.Concat(lines[0][0], lines[0][lines[0].Length-1]);
+            ReadInitialValues(Enumerable.Range(0, lines[0].Length - 1).Select(i => (lines[0].Substring(i, 2), (long)1)));
+            lines.GetRange(2, lines.Count - 2).ForEach(line =>
+                _pairInsertionMap.Add(line[..2], (string.Concat(line[0], line[6]), string.Concat(line[6], line[1]))));
+        }
+
+        protected override void Cycle() => CohortCounts.ToList().ForEach(entry =>
+        {
+            var (key, value) = entry;
+            CohortCounts[key] -= value;
+            var (item1, item2) = _pairInsertionMap[key];
+            AddToCohortCounts(item1, value);
+            AddToCohortCounts(item2, value);
         });
-        var polymerTemplate = lines.First();
-        for (var i = 0; i < polymerTemplate.Length - 1; i++) pairCounts[polymerTemplate.Substring(i, 2)]++;
-        var cycle = 0;
-        while (cycle < cycles)
-        {
-            pairCounts.ToList().ForEach(entry =>
-            {
-                var outputs = pairInsertionMap[entry.Key];
-                pairCounts[outputs.Item1] += entry.Value;
-                pairCounts[outputs.Item2] += entry.Value;
-                pairCounts[entry.Key] -= entry.Value;
-            });
-            cycle++;
-        }
 
-        var letterCountDictionary = pairCounts.Keys
-            .SelectMany(k => new List<string> { k[0].ToString(), k[1].ToString() }).ToHashSet()
-            .ToDictionary(x => x, x => (long)0);
-        foreach (var (key, value) in pairCounts)
+        public override long Result()
         {
-            letterCountDictionary[key[0].ToString()] += value;
-            letterCountDictionary[key[1].ToString()] += value;
+            AddToCohortCounts(_wrapAroundPair, 1);
+            var results = CohortCounts.ToList()
+                .SelectMany(entry => new List<(string, long)>
+                    { (entry.Key[0].ToString(), entry.Value), (entry.Key[1].ToString(), entry.Value) })
+                .GroupBy(t => t.Item1)
+                .ToDictionary(
+                    x => x.Key,
+                    x => x.Select(t => t.Item2).Sum() / 2);
+            return results.Values.Max() - results.Values.Min();
         }
-        // the dictionary will count each letter twice, as the start and end of a pair, except the ones that are 
-        // at the ends of the string, which are the same ones as in the initial string.  So we add one to double count them too.
-        letterCountDictionary[lines[0][0].ToString()]++;
-        letterCountDictionary[lines[0][lines[0].Length - 1].ToString()]++;
-
-        var countList = letterCountDictionary.Values.Select(v => v / 2).ToList();
-        countList.Sort();
-        return countList.Last() - countList.First();
     }
 }

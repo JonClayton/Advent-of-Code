@@ -1,52 +1,35 @@
 using System.Collections.Generic;
 using System.Linq;
+using AdventOfCode2021.Classes;
 using AdventOfCode2021.Utilities;
 
 namespace AdventOfCode2021.Solutions;
 
 public class Solution06 : Solution
 {
-    protected override long FirstSolution(List<string> lines)
-    {
-        return GeneralSolution(lines, 80);
-    }
+    protected override long FirstSolution(List<string> lines) => ModelPopulationGrowth(lines, 80);
 
-    protected override long SecondSolution(List<string> lines)
-    {
-        return GeneralSolution(lines, 256);
-    }
+    protected override long SecondSolution(List<string> lines) => ModelPopulationGrowth(lines, 256);
 
-    private static long GeneralSolution(List<string> lines, int generations)
-    {
-        var population = new Population(lines);
-        Enumerable.Range(0, generations).ToList().ForEach(_ => population.AgeOneDay());
-        return population.TotalPopulation();
-    }
-}
+    private static long ModelPopulationGrowth(IEnumerable<string> lines, int generations) => 
+        new Population(lines).Cycle(generations).Result();
 
-internal class Population
-{
-    private Dictionary<int, long> _populationByAge;
-
-    public Population(List<string> lines)
+    private class Population : CohortCounter<int>
     {
-        _populationByAge = lines.First()
-            .Split(",")
-            .Select(int.Parse)
-            .GroupBy(i => i)
-            .ToDictionary(g => g.Key, g => (long)g.Count());
-    }
+        public Population(IEnumerable<string> lines) => ReadInitialValues(lines.First()
+                .Split(",")
+                .Select(int.Parse)
+                .GroupBy(i => i)
+                .Select(g => (g.Key, (long)g.Count())));
+            
+        public override long Result() => CohortCounts.Values.Aggregate((a, x) => a + x);
 
-    public void AgeOneDay()
-    {
-        _populationByAge = _populationByAge.ToDictionary(x => x.Key - 1, x => x.Value);
-        _populationByAge.Remove(-1, out var births);
-        _populationByAge[6] = births + _populationByAge.GetValueOrDefault(6, 0);
-        _populationByAge[8] = births;
-    }
-
-    public long TotalPopulation()
-    {
-        return _populationByAge.Values.Aggregate((a, x) => a + x);
+        protected override void Cycle()
+        {
+            CohortCounts = CohortCounts.ToDictionary(x => x.Key - 1, x => x.Value);
+            CohortCounts.Remove(-1, out var births);
+            CohortCounts[6] = births + CohortCounts.GetValueOrDefault(6, 0);
+            CohortCounts[8] = births;
+        }
     }
 }

@@ -11,7 +11,7 @@ internal static class Program
         // new Solution03().StatusReport();
         // new Solution04().StatusReport();
         // new Solution05().StatusReport();
-        // new Solution06().StatusReport();
+        new Solution06().StatusReport();
         // new Solution07().StatusReport();
         // new Solution08().StatusReport();
         // new Solution09().StatusReport();
@@ -19,6 +19,6 @@ internal static class Program
         // new Solution11().StatusReport();
         // new Solution12().StatusReport();
         // new Solution13().StatusReport();
-        new Solution14().StatusReport();
+        // new Solution14().StatusReport();
     }
 }
