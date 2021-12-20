@@ -1,24 +1,23 @@
-﻿using AdventOfCode2021.Solutions;
+﻿using AdventOfCode.Solutions2015;
+using AdventOfCode.Solutions2016;
+using AdventOfCode.Solutions2017;
+using AdventOfCode.Solutions2018;
+using AdventOfCode.Solutions2019;
+using AdventOfCode.Solutions2020;
+using AdventOfCode.Solutions2021;
 
-namespace AdventOfCode2021;
+namespace AdventOfCode;
 
 internal static class Program
 {
     private static void Main(string[] args)
     {
-        // new Solution01().StatusReport();
-        // new Solution02().StatusReport();
-        // new Solution03().StatusReport();
-        // new Solution04().StatusReport();
-        // new Solution05().StatusReport();
-        new Solution06().StatusReport();
-        // new Solution07().StatusReport();
-        // new Solution08().StatusReport();
-        // new Solution09().StatusReport();
-        // new Solution10().StatusReport();
-        // new Solution11().StatusReport();
-        // new Solution12().StatusReport();
-        // new Solution13().StatusReport();
-        // new Solution14().StatusReport();
+        // AdventOfCode2015.Solve();
+        // AdventOfCode2016.Solve();
+        // AdventOfCode2017.Solve();
+        // AdventOfCode2018.Solve();
+        // AdventOfCode2019.Solve();
+        // AdventOfCode2020.Solve();
+        AdventOfCode2021.Solve();
     }
 }

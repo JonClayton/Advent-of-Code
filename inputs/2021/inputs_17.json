@@ -1,0 +1,7 @@
+{
+  "actual_input": "target area: x=185..221, y=-122..-74",
+  "day": 17,
+  "first_test_result": 45,
+  "second_test_result": -1,
+  "test_input": "target area: x=20..30, y=-10..-5"
+}

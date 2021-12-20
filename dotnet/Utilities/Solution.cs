@@ -3,57 +3,85 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using AdventOfCode2021.Classes;
+using AdventOfCode.Classes;
 
-namespace AdventOfCode2021.Utilities;
+namespace AdventOfCode.Utilities;
 
 public abstract class Solution
 {
-    private readonly List<string> _actualLines;
+    private readonly List<string> _actualInput;
     private readonly DateTimeOffset _createdAt;
-    private readonly long _firstTestResult;
-    private readonly long _secondTestResult;
-    private readonly string _solution;
-    private readonly List<string> _testLines;
-    private long _result;
+    private readonly List<List<string>> _firstTestInputsList;
+    private readonly List<long> _firstTestResults;
+    private readonly List<List<string>> _secondTestInputsList;
+    private readonly List<long> _secondTestResults;
+    private readonly string _solutionName;
 
     protected Solution()
     {
+        _solutionName = GetType().Name;
+        var jsonString = File.ReadAllText($"../../../../inputs/{_solutionName[8..12]}/inputs_{_solutionName[15..17]}.json");
+        var inputs = JsonSerializer.Deserialize<AdventOfCodeInputs>(jsonString) ?? new AdventOfCodeInputs();
+        _actualInput = inputs.ActualInput.Split("\n").ToList();
+        _firstTestInputsList = inputs.TestInputs.Select(input => input.Split("\r\n").ToList()).ToList();
+        _firstTestResults = inputs.FirstTestResults;
+        _secondTestInputsList = inputs.SecondTestInputs?.Select(input => input.Split("\n").ToList()).ToList();
+        _secondTestResults = inputs.SecondTestResults ?? new List<long>{inputs.SecondTestResult};
+        if (!_firstTestInputsList.Any())
+        {
+            _firstTestInputsList.Add(inputs.TestInput?.Split("\n").ToList());
+            _firstTestResults.Add(inputs.FirstTestResult);
+        }
         _createdAt = DateTimeOffset.UtcNow;
-        _solution = GetType().Name;
-        var jsonString = File.ReadAllText($"../../../../inputs/inputs_{_solution.Substring(8, 2)}.json");
-        var inputs = JsonSerializer.Deserialize<Inputs>(jsonString) ?? new Inputs();
-        _actualLines = inputs.ActualInput.Split("\n").ToList();
-        _firstTestResult = inputs.FirstTestResult;
-        _secondTestResult = inputs.SecondTestResult;
-        _testLines = inputs.TestInput.Split("\n").ToList();
+        if (_secondTestInputsList != null) return;
+        _secondTestInputsList = inputs.SecondTestInput != null
+            ? new List<List<string>> { inputs.SecondTestInput?.Split("\n").ToList() }
+            : _firstTestInputsList;
     }
 
     public void StatusReport()
     {
-        _result = FirstSolution(_testLines);
-        if (_result != _firstTestResult)
+        if (FirstTestsFail()) return;
+        var firstResult = FirstSolution(_actualInput);
+        if (SecondTestsFail())
         {
-            ReportFailedTest(1, _firstTestResult);
+            ConsoleInColor($"{_solutionName} part 1 is {firstResult}", ConsoleColor.Yellow);
+            return;
         }
-        else
+
+        var secondResult = SecondSolution(_actualInput);
+        var elapsedTime = Math.Round((DateTimeOffset.UtcNow - _createdAt).TotalMilliseconds / 1000, 3);
+        ConsoleInColor(
+            $"{_solutionName} solved in {elapsedTime}s: first = {firstResult} and second = {secondResult}",
+            ConsoleColor.DarkGreen);
+    }
+
+    private bool FirstTestsFail()
+    {
+        for (var i = 0; i < _firstTestInputsList.Count(); i++)
         {
-            var firstResult = FirstSolution(_actualLines);
-            _result = SecondSolution(_testLines);
-            if (_result != _secondTestResult)
-            {
-                ConsoleInColor($"{_solution} part 1 is {firstResult}", ConsoleColor.Yellow);
-                ReportFailedTest(2, _secondTestResult);
-            }
-            else
-            {
-                var secondResult = SecondSolution(_actualLines);
-                var elapsedTime = Math.Round((DateTimeOffset.UtcNow - _createdAt).TotalMilliseconds / 1000, 3);
-                ConsoleInColor(
-                    $"{_solution} solved in {elapsedTime}s: first = {firstResult} and second = {secondResult}",
-                    ConsoleColor.DarkGreen);
-            }
+            var result = FirstSolution(_firstTestInputsList[i]);
+            if (result == _firstTestResults[i]) continue;
+            var part = _firstTestInputsList.Count() > 1 ? $"1.{i}" : "1";
+            ReportFailedTest(part, result, _firstTestResults[i]);
+            return true;
         }
+
+        return false;
+    }
+    
+    private bool SecondTestsFail()
+    {
+        for (var i = 0; i < _secondTestInputsList.Count(); i++)
+        {
+            var result = SecondSolution(_secondTestInputsList[i]);
+            if (result == _secondTestResults[i]) continue;
+            var part = _secondTestInputsList.Count() > 1 ? $"2.{i}" : "2";
+            ReportFailedTest(part, result, _secondTestResults[i]);
+            return true;
+        }
+
+        return false;
     }
 
     private static void ConsoleInColor(string text, ConsoleColor color)
@@ -68,13 +96,13 @@ public abstract class Solution
         return strings.Select(int.Parse).ToList();
     }
 
-    private void ReportFailedTest(int part, long expectedResult)
+    private void ReportFailedTest(string part, long result, long expectedResult)
     {
         if (expectedResult.Equals(-1))
-            ConsoleInColor($"{_solution} json has not been initialized yet", ConsoleColor.DarkGray);
+            ConsoleInColor($"{_solutionName} json has not been initialized yet", ConsoleColor.DarkGray);
         else
             ConsoleInColor(
-                $"Test for {_solution} part {part}: failed with actual={_result} and expected={expectedResult}",
+                $"Test for {_solutionName} part {part}: failed with actual={result} and expected={expectedResult}",
                 ConsoleColor.Red);
     }
 

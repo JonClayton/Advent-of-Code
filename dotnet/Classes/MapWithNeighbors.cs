@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace AdventOfCode2021.Classes;
+namespace AdventOfCode.Classes;
 
 public class MapWithNeighbors<TType> where TType : LocationWithNeighbors, new()
 {
@@ -11,7 +11,7 @@ public class MapWithNeighbors<TType> where TType : LocationWithNeighbors, new()
     {
         for (var row = 0; row < lines.Count; row++)
         for (var col = 0; col < lines[0].Length; col++)
-            Locations.Add((row, col), new TType
+            Locations.Add((col, row), new TType
             {
                 Row = row,
                 Column = col,
@@ -26,7 +26,7 @@ public class MapWithNeighbors<TType> where TType : LocationWithNeighbors, new()
         NeighborMoves.ForEach(move =>
         {
             var (item1, item2) = move;
-            if (Locations.TryGetValue((location.Row + item1, location.Column + item2), out var neighbor))
+            if (Locations.TryGetValue((location.Column + item1, location.Row + item2), out var neighbor))
                 location.Neighbors.Add(neighbor);
         });
     }

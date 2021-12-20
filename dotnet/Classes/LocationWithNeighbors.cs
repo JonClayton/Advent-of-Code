@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 
-namespace AdventOfCode2021.Classes;
+namespace AdventOfCode.Classes;
 
 public class LocationWithNeighbors
 {
-    public readonly HashSet<LocationWithNeighbors> Neighbors = new();
+    public HashSet<LocationWithNeighbors> Neighbors = new();
     public int Column;
     public int Row;
     public int Value;
