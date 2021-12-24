@@ -1,4 +1,6 @@
-﻿using AdventOfCode.Solutions2015;
+﻿global using AdventOfCode.Classes;
+global using AdventOfCode.Utilities;
+using AdventOfCode.Solutions2015;
 using AdventOfCode.Solutions2016;
 using AdventOfCode.Solutions2017;
 using AdventOfCode.Solutions2018;

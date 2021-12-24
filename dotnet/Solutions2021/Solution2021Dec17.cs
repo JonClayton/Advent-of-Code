@@ -24,8 +24,8 @@ public class Solution2021Dec17 : Solution
         _yTarget = Enumerable.Range(yRange[0], yRange[1] - yRange[0]).ToHashSet();
         var maxX = xRange[1];
         var minX = Math.Sqrt(2 * xRange[0]);
-        var minXInt = minX == Math.Floor(minX) ? (int)minX : (int)minX + 1; 
-        for (var x = minX
+        var minXInt = minX == Math.Floor(minX) ? (int)minX : (int)minX + 1;
+        return 5;
     }
 
     protected override long SecondSolution(List<string> lines) => 5;
