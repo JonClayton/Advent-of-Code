@@ -9,6 +9,10 @@ public static class Extensions
     {
         return nums.Aggregate(1, (i, i1) => i * i1);
     }
+    public static long Product(this IEnumerable<long> nums)
+    {
+        return nums.Aggregate((long)1, (i, i1) => i * i1);
+    }
 
     public static int ToInteger(this List<int> nums)
     {

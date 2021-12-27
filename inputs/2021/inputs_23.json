@@ -1,0 +1,7 @@
+{
+  "actual_input": "#############\n#...........#\n###D#C#A#B###\n  #C#D#A#B#\n  #########",
+  "day": 23,
+  "first_test_result": 12521,
+  "second_test_result": -1,
+  "test_input": "#############\n#...........#\n###B#C#B#D###\n  #A#D#C#A#\n  #########"
+}
