@@ -236,7 +236,6 @@ public class Solution2021Dec19 : Solution
 
     protected override long SecondSolution(List<string> lines)
     {
-        RunAnalysis(lines);
         return (long) (
                 from scanner0 in _scanners
                 from scanner1 in _scanners

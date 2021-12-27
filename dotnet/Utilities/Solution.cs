@@ -42,13 +42,13 @@ public abstract class Solution
     public void StatusReport()
     {
         if (FirstTestsFail()) return;
+        var didSecondTestsFail = SecondTestsFail();
         var firstResult = FirstSolution(_actualInput);
-        if (SecondTestsFail())
+        if (didSecondTestsFail)
         {
             ConsoleInColor($"{_solutionName} part 1 is {firstResult}", ConsoleColor.Yellow);
             return;
         }
-
         var secondResult = SecondSolution(_actualInput);
         var elapsedTime = Math.Round((DateTimeOffset.UtcNow - _createdAt).TotalMilliseconds / 1000, 3);
         ConsoleInColor(
