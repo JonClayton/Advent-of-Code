@@ -18,7 +18,7 @@ public abstract class Solution
         var jsonString = File.ReadAllText($"../../../../inputs/{_solutionName[8..12]}/inputs_{_solutionName[15..17]}.json");
         var inputs = JsonSerializer.Deserialize<AdventOfCodeInputs>(jsonString) ?? new AdventOfCodeInputs();
         _actualInput = inputs.ActualInput.Split("\n").ToList();
-        _firstTestInputsList = inputs.TestInputs.Select(input => input.Split("\r\n").ToList()).ToList();
+        _firstTestInputsList = inputs.TestInputs.Select(input => input.Split("\n").Select(s => s.Replace("\r", string.Empty)).ToList()).ToList();
         _firstTestResults = inputs.FirstTestResults;
         _secondTestInputsList = inputs.SecondTestInputs?.Select(input => input.Split("\n").ToList()).ToList();
         _secondTestResults = inputs.SecondTestResults ?? new List<long>{inputs.SecondTestResult};
@@ -94,7 +94,7 @@ public abstract class Solution
     private void ReportFailedTest(string part, long result, long expectedResult)
     {
         if (expectedResult.Equals(-1))
-            ConsoleInColor($"{_solutionName} json has not been initialized yet", ConsoleColor.DarkGray);
+            ConsoleInColor($"{_solutionName} part {part} json has not been initialized yet", ConsoleColor.DarkGray);
         else
             ConsoleInColor(
                 $"Test for {_solutionName} part {part}: failed with actual={result} and expected={expectedResult}",
