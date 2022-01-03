@@ -8,6 +8,9 @@ public class AdventOfCodeInputs
     [JsonPropertyName("actual_input")]
     public string ActualInput { get; set; }
 
+    [JsonPropertyName("second_actual_input")]
+    public string SecondActualInput { get; set; }
+    
     [JsonPropertyName("day")]
     public int Day { get; set; }
 

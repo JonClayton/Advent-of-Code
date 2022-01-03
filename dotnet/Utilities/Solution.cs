@@ -8,6 +8,7 @@ public abstract class Solution
     private readonly DateTimeOffset _createdAt;
     private readonly List<List<string>> _firstTestInputsList;
     private readonly List<long> _firstTestResults;
+    private readonly List<string> _secondActualInput;
     private readonly List<List<string>> _secondTestInputsList;
     private readonly List<long> _secondTestResults;
     private readonly string _solutionName;
@@ -18,6 +19,7 @@ public abstract class Solution
         var jsonString = File.ReadAllText($"../../../../inputs/{_solutionName[8..12]}/inputs_{_solutionName[15..17]}.json");
         var inputs = JsonSerializer.Deserialize<AdventOfCodeInputs>(jsonString) ?? new AdventOfCodeInputs();
         _actualInput = inputs.ActualInput.Split("\n").ToList();
+        _secondActualInput = inputs.SecondActualInput?.Split("\n").ToList() ?? _actualInput;
         _firstTestInputsList = inputs.TestInputs.Select(input => input.Split("\n").Select(s => s.Replace("\r", string.Empty)).ToList()).ToList();
         _firstTestResults = inputs.FirstTestResults;
         _secondTestInputsList = inputs.SecondTestInputs?.Select(input => input.Split("\n").ToList()).ToList();
@@ -44,7 +46,7 @@ public abstract class Solution
             ConsoleInColor($"{_solutionName} part 1 is {firstResult}", ConsoleColor.Yellow);
             return;
         }
-        var secondResult = SecondSolution(_actualInput);
+        var secondResult = SecondSolution(_secondActualInput);
         var elapsedTime = Math.Round((DateTimeOffset.UtcNow - _createdAt).TotalMilliseconds / 1000, 3);
         ConsoleInColor(
             $"{_solutionName} solved in {elapsedTime}s: first = {firstResult} and second = {secondResult}",
