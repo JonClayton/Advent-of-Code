@@ -14,47 +14,67 @@ public class Solution2021Dec21 : Solution
     }
 
     protected override long SecondSolution(List<string> lines)
-    { 
+    {
         var players = lines.Select(line => new Player(line)).ToList();
-        var gameStates = new Dictionary<(int, int, int, int, int), long>()
+        var initialUniverseState = new GameState
         {
-            { (0, players[0].Location, 0, players[1].Location, 0), 1 }
+            Player1Location = players[0].Location,
+            Player1Score = players[0].Score,
+            Player2Location = players[1].Location,
+            Player2Score = players[1].Score,
         };
-        while (gameStates.Where(gs => gs.Key.Item1 == 0).Sum(gs => gs.Value) > 0)
+        var multiverse = new Multiverse 
         {
-            var gameStatesList = gameStates.Where(gs => gs.Key.Item1 ==0 && gs.Value > 0).ToList();
-            foreach (var (key, count) in gameStatesList)
+            GameStates = new Dictionary<GameState, long> { { initialUniverseState, 1 } },
+        };
+        while (multiverse.GameStates.Any())
+        {
+            foreach(var (gameState, universeCount) in multiverse.GameStates.ToList()) ReadyPlayerOne(gameState, universeCount);
+            foreach(var (gameState, universeCount) in multiverse.GameStates.ToList()) ReadyPlayerTwo(gameState, universeCount);
+            multiverse.Round++;
+            Console.WriteLine(multiverse.Report);
+        }
+        return Math.Max(multiverse.Player1Wins, multiverse.Player2Wins);
+
+        void ReadyPlayerOne(GameState gameState, long universeCount)
+        {
+            foreach (var (value, frequency) in Die.DiracThrowOutcomeFrequencies)
             {
-                var (_, player1Location, player1Score, player2Location, player2Score) = key;
-                Die.ThrowDirac.ForEach(move =>
-                {
-                    var newLocation = (player1Location + move) % 10;
-                    var newScore = player1Score + (newLocation == 0 ? 10 : newLocation);
-                    var newKey = (newScore >= 21 ? 1 : 0, newLocation, newScore, player2Location, player2Score);
-                    if (!gameStates.TryAdd(newKey, count)) gameStates[newKey] += count;
-                });
-                gameStates.Remove(key);
+                var newLocation = (gameState.Player1Location + value) % 10;
+                var newScore = gameState.Player1Score + (newLocation == 0 ? 10 : newLocation);
+                if (newScore < 21)
+                    multiverse.GameStates.Add(new GameState
+                    {
+                        Player1Location = newLocation,
+                        Player1Score = newScore,
+                        Player2Location = gameState.Player2Location,
+                        Player2Score = gameState.Player2Score
+                    }, frequency * universeCount);
+                else multiverse.Player1Wins += frequency * universeCount;
             }
 
-            gameStatesList = gameStates.Where(gs => gs.Key.Item1 == 0).ToList();
-            foreach (var (key, count) in gameStatesList)
-            {
-                var (_, player1Location, player1Score, player2Location, player2Score) = key;
-                Die.ThrowDirac.ForEach(move =>
-                {
-                    var newLocation = (player2Location + move) % 10;
-                    var newScore = player2Score + (newLocation == 0 ? 10 : newLocation);
-                    var newKey = (newScore >= 21 ? 2 : 0, player1Location, player1Score, newLocation, newScore);
-                    if (!gameStates.TryAdd(newKey, count)) gameStates[newKey] += count;
-                });
-                gameStates.Remove(key);
-            }
-            var total = gameStates.Select(gs => gs.Value).Sum();
-            Console.WriteLine(total);
+            multiverse.GameStates.Remove(gameState);
         }
 
+        void ReadyPlayerTwo(GameState gameState, long universeCount)
+        {
+            foreach (var (value, frequency) in Die.DiracThrowOutcomeFrequencies)
+            {
+                var newLocation = (gameState.Player2Location + value) % 10;
+                var newScore = gameState.Player2Score + (newLocation == 0 ? 10 : newLocation);
+                if (newScore < 21)
+                    multiverse.GameStates.Add(new GameState
+                    {
+                        Player1Location = gameState.Player1Location,
+                        Player1Score = gameState.Player1Score,
+                        Player2Location = newLocation,
+                        Player2Score = newScore
+                    }, frequency * universeCount);
+                else multiverse.Player2Wins += frequency * universeCount;
+            }
 
-        return gameStates.GroupBy(gs => gs.Key.Item1).Select(g => g.Select(g => g.Value).Sum()).Max();
+            multiverse.GameStates.Remove(gameState);
+        }
     }
 
     private class Die
@@ -67,7 +87,16 @@ public class Solution2021Dec21 : Solution
             return LastThrow;
         }
 
-        public static List<int> ThrowDirac => new() { 3,4,4,4,5,5,5,5,5,5,6,6,6,6,6,6,6,7,7,7,7,7,7,8,8,8,9 };
+        public static Dictionary<int, int> DiracThrowOutcomeFrequencies => new()
+        {
+            { 3, 1 },
+            { 4, 3 },
+            { 5, 6 },
+            { 6, 7 },
+            { 7, 6 },
+            { 8, 3 },
+            { 9, 1 }
+        };
     }
 
     private class Player
@@ -92,30 +121,24 @@ public class Solution2021Dec21 : Solution
             if (Location == 0) Score += 10;
             return Score >= 1000;
         }
+    }
 
-        public void TakeTurnAndUpdateScoreUniverses()
-        {
-            Turn++;
-            var list = LocationScoreUniverses.ToList();
-            foreach (var ((location, score), value) in list)
-            {
-                Die.ThrowDirac.ForEach(move =>
-                {
-                    var newLocation = (location + move) % 10;
-                    var newScore = score + (newLocation == 0 ? 10 : newLocation);
-                    if (newScore >= 21)
-                    {
-                        if (!TurnCountWins.TryAdd(Turn, value))
-                            TurnCountWins[Turn] += value;
-                    }
-                    else
-                    {
-                        if (!LocationScoreUniverses.TryAdd((newLocation, newScore), value))
-                            LocationScoreUniverses[(newLocation, newScore)] += value;
-                    }
-                });
-                LocationScoreUniverses[(location, score)] = 0;
-            }
-        }
+    private class GameState
+    {
+        public int Player1Location;
+        public int Player1Score;
+        public int Player2Location;
+        public int Player2Score;
+    }
+
+    private class Multiverse
+    {
+        public int Round;
+        public long Player1Wins;
+        public long Player2Wins;
+        public Dictionary<GameState, long> GameStates;
+
+        public string Report =>
+            $"After Round {Round}, Player1 Wins: {Player1Wins}, Player2 Wins: {Player2Wins}, and {GameStates.Count} gameStates alive.";
     }
 }

@@ -32,7 +32,7 @@ public class Solution2021Dec23 : Solution
     
     protected override long SecondSolution(List<string> lines) => GeneralSolution(lines);
     
-    private long GeneralSolution(List<string> lines)
+    private static long GeneralSolution(List<string> lines)
     {
         LowestValue = long.MaxValue;
         var members = lines.GetRange(2, 2).Select(s => s.Replace("#", string.Empty).Trim().ToCharArray()).ToList();
@@ -52,7 +52,6 @@ public class Solution2021Dec23 : Solution
         var map = new Map(Enumerable.Repeat('.', 11).ToList(), rooms, startingScore, new List<string>());
         var (success, winner)= map.IsPathBest();
         Console.WriteLine($"Solved with score {winner.Score}");
-        Console.WriteLine(string.Join("\n", winner.Path));
         return winner.Score;
     }
 
@@ -65,11 +64,12 @@ public class Solution2021Dec23 : Solution
 
         public Map(List<char> hallway, Dictionary<char, List<char>> rooms, long score, List<string> path)
         {
-            // Counter++;
+            Counter++;
             _hallway = hallway;
             Path = path;
             _rooms = rooms;
             Score = score;
+            // if (Counter % 100000 == 0) Console.WriteLine($"Counter: {Counter}");
             CleanMap();
         }
 
@@ -78,11 +78,12 @@ public class Solution2021Dec23 : Solution
             if (Score >= LowestValue) return (false, null);
             if (_hallway.All(h => h.Equals(Dot)) && _rooms.All(r => !r.Value.Any()))
             {
+                Console.WriteLine($"New Lowest Score: {Score}");
                 LowestValue = Score;
                 return (true, this);
             } 
-            var winners = GetNextMaps()
-                .Select(nextMap => nextMap.IsPathBest())
+            var nextMaps = GetNextMaps();
+            var winners = nextMaps.Select(nextMap => nextMap.IsPathBest())
                 .Where(result => result.Item1)
                 .OrderBy(result => result.Item2.Score)
                 .ToList();
@@ -96,16 +97,17 @@ public class Solution2021Dec23 : Solution
             foreach (var (designation, occupants) in occupiedRooms)
             {
                 if (!occupants.Any()) continue;
+                var occupant = occupants.First();
                 foreach (var i in HallwayLocations)
                 {
                     if (_hallway[i] != Dot || !HallwayIsOpen(i, RoomLocations[designation])) continue;
+                    var newScore = Score + Cost(i, designation, occupant);
+                    if (newScore >= LowestValue) continue;
                     var newHallway = _hallway.ToList();
-                    newHallway[i] = occupants.First();
-                    var newRooms = new Dictionary<char, List<char>>(_rooms);
-                    foreach (var (key, value) in newRooms) newRooms[key] = value.ToList();
-                    newRooms[designation].Remove(occupants.First());
+                    newHallway[i] = occupant;
+                    var newRooms = _rooms.ToDictionary(x => x.Key, x => x.Value.ToList());
+                    newRooms[designation].Remove(occupant);
                     var newPath = Path.ToList();
-                    var newScore = Score + Cost(i, designation, newHallway[i]);
                     newPath.Add($"{newHallway[i]} at {i} from {designation}");
                     result.Add(new Map(newHallway, newRooms, newScore, newPath));
                 }
@@ -116,35 +118,50 @@ public class Solution2021Dec23 : Solution
 
         private void CleanMap()
         {
-            foreach (var room in _rooms)
+            CleanRooms();
+            CleanHallway();
+
+            void CleanRooms()
             {
-                var (designation, occupants) = room;
-                if (occupants.All(o => o.Equals(designation))) room.Value.Clear();
+                foreach (var designation in RoomLocations.Keys)
+                {
+                    if (!_rooms[designation].Any()) break;
+                    if (_rooms[designation].All(o => o.Equals(designation))) _rooms[designation].Clear();
+                }
             }
 
-            for (var i = 0; i < 11; i++)
+            void CleanHallway()
             {
-                var standee = _hallway[i];
-                if (_hallway[i] != Dot && !_rooms[standee].Any() && HallwayIsOpen(i, RoomLocations[standee]))
+                foreach (var i in HallwayLocations)
                 {
+                    var standee = _hallway[i];
+                    if (standee == Dot || _rooms[standee].Any() || !HallwayIsOpen(i, RoomLocations[standee])) continue;
                     Score += Cost(i, standee, standee);
                     Path.Add($"{_hallway[i]} at {i} home");
                     _hallway[i] = Dot;
-                    i = 0;
+                    CleanHallway();
+                    return;
                 }
             }
         }
 
-        private static long Cost(int location, char room, char type)
-        {
-            return (Math.Abs(location - RoomLocations[room]) + 1) * MovementCost[type];
-        }
+        private static long Cost(int location, char room, char type) => 
+            (Math.Abs(location - RoomLocations[room]) + 1) * MovementCost[type];
 
         private bool HallwayIsOpen(int locA, int locB)
         {
             var delta = Math.Abs(locA - locB);
-            if (delta == 0) return false;
-            return delta == 1 || _hallway.GetRange(Math.Min(locA, locB) + 1, delta - 1).All(loc => loc.Equals(Dot));
+            switch (delta)
+            {
+                case 0:
+                    return false;
+                case 1:
+                    return true;
+                default:
+                    var rangeStart = Math.Min(locA, locB) + 1;
+                    for (var i = rangeStart; i < rangeStart + delta - 1; i++) if (_hallway[i] != Dot) return false;
+                    return true;
+            }
         }
     }
 }

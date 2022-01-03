@@ -46,6 +46,7 @@ public abstract class Solution
             ConsoleInColor($"{_solutionName} part 1 is {firstResult}", ConsoleColor.Yellow);
             return;
         }
+
         var secondResult = SecondSolution(_secondActualInput);
         var elapsedTime = Math.Round((DateTimeOffset.UtcNow - _createdAt).TotalMilliseconds / 1000, 3);
         ConsoleInColor(
