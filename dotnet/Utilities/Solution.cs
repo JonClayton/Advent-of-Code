@@ -93,6 +93,15 @@ public abstract class Solution
     {
         return strings.Select(int.Parse).ToList();
     }
+    
+    protected static List<List<int>> ConvertToChunkedIntegers(IEnumerable<string> strings)
+    {
+        var chunkedIntegers = new List<List<int>> { new() };
+        foreach (var str in strings)
+            if (string.IsNullOrEmpty(str)) chunkedIntegers.Add(new List<int>());
+            else chunkedIntegers[^1].Add(int.Parse(str));
+        return chunkedIntegers;
+    }
 
     private void ReportFailedTest(string part, long result, long expectedResult)
     {

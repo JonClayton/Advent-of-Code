@@ -1,0 +1,7 @@
+{
+  "actual_input": "Player 1 starting position: 2\nPlayer 2 starting position: 7",
+  "day": 21,
+  "first_test_result": 739785,
+  "second_test_result": 444356092776315,
+  "test_input": "Player 1 starting position: 4\nPlayer 2 starting position: 8"
+}
