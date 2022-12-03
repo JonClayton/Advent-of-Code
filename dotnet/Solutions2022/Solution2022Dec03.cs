@@ -4,17 +4,19 @@ public class Solution2022Dec03 : Solution
 {
     protected override long FirstSolution(List<string> lines)
     {
-        return GeneralSolution(lines, 3);
+        return lines.Sum(line => GetCharValue(line.Take(line.Length / 2).ToHashSet()
+            .Intersect(line.TakeLast(line.Length / 2).ToHashSet()).First()));
     }
 
     protected override long SecondSolution(List<string> lines)
     {
-        return GeneralSolution(lines, 3);
+        return lines.Chunk(3).Sum(chunk =>
+            GetCharValue(chunk[0].ToHashSet().Intersect(chunk[1].ToHashSet()).Intersect(chunk[2].ToHashSet()).First()));
     }
 
-
-    private static long GeneralSolution(List<string> lines, int count)
+    private static long GetCharValue(char c)
     {
-        return 112233;
+        var asciiValue = (int)c;
+        return asciiValue - (asciiValue > 96 ? 96 : 38);
     }
 }
