@@ -4,8 +4,7 @@ public class Solution2022Dec03 : Solution
 {
     protected override long FirstSolution(List<string> lines) =>
         lines
-            .SelectMany(Halve)
-            .Chunk(2)
+            .Select(Halve)
             .Select(chunk => chunk.Aggregate((a, n) => a.Intersect(n)).First())
             .Select(GetCharValue)
             .Sum();

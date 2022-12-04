@@ -2,33 +2,14 @@ namespace AdventOfCode.Solutions2022;
 
 public class Solution2022Dec02 : Solution
 {
-    protected override long FirstSolution(List<string> lines)
-    {
-        return lines
-            .GroupBy(strings => strings)
-            .Select(group => (group.Key, group.Count()))
-            .Aggregate((long)0, (score, next) => score + next.Item2 * GetValueFirst(next.Item1));
-    }
+    protected override long FirstSolution(List<string> lines) => GeneralSolution(lines, GetValueFirst);
+    protected override long SecondSolution(List<string> lines) => GeneralSolution(lines, GetValueSecond);
 
-    protected override long SecondSolution(List<string> lines)
-    {
-        return lines
-            .GroupBy(strings => strings)
-            .Select(group => (group.Key, group.Count()))
-            .Aggregate((long)0, (score, next) => score + next.Item2 * GetValueSecond(next.Item1));
-    }
-
-    private static long GetValueFirst(string str)
-    {
-        var result = (str[2] - str[0] - 1) % 3;
-        var valueOfSelection = str[2] - 87;
-        return result * 3 + valueOfSelection;
-    }
+    private static long GeneralSolution(IEnumerable<string> lines, Func<char, char, long> getValue) => lines
+        .GroupBy(strings => strings)
+        .Aggregate((long)0, (score, next) => score + next.Count() * getValue(next.Key[0], next.Key[2]));
     
-    private static long GetValueSecond(string str)
-    {
-        var result = str[2] - 88;
-        var valueOfSelection = (str[0] + str[2] - 1) % 3 + 1;
-        return result * 3 + valueOfSelection;
-    }
+    private static long GetValueFirst(char a, char b) => (b - a - 1) % 3 * 3 + b - 87;
+
+    private static long GetValueSecond(char a, char b) => (b - 88) * 3 + (a + b - 1) % 3 + 1;
 }

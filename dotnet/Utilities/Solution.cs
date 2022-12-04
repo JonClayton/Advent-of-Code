@@ -94,7 +94,7 @@ public abstract class Solution
         return strings.Select(int.Parse).ToList();
     }
     
-    protected static List<List<int>> ConvertToChunkedIntegers(IEnumerable<string> strings)
+    protected static IEnumerable<List<int>> ConvertToChunkedIntegers(IEnumerable<string> strings)
     {
         var chunkedIntegers = new List<List<int>> { new() };
         foreach (var str in strings)
