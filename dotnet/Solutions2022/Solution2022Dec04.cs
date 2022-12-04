@@ -2,18 +2,24 @@ namespace AdventOfCode.Solutions2022;
 
 public class Solution2022Dec04 : Solution
 {
-    protected override long FirstSolution(List<string> lines)
-    {
-        return GeneralSolution(lines, 1);
-    }
+    protected override long FirstSolution(List<string> lines) => GeneralSolution(lines, IsSubset);
+    protected override long SecondSolution(List<string> lines) => GeneralSolution(lines, HasOverlap);
 
-    protected override long SecondSolution(List<string> lines)
-    {
-        return GeneralSolution(lines, 3);
-    }
+    private static long GeneralSolution(IEnumerable<string> lines, Func<List<List<int>>, bool> counter) =>
+        lines
+            .Select(line => line.Split(",")
+                .Select(nums => nums.Split("-")
+                    .Select(int.Parse).ToList())
+                .ToList())
+            .Count(counter);
 
-    private static long GeneralSolution(IEnumerable<string> lines, int count)
-    {
-        return 100;
-    }
+    private static bool IsSubset(List<List<int>> pairs) =>
+        pairs.First().First() == pairs.Last().First() ||
+        pairs.First().Last() == pairs.Last().Last() ||
+        pairs.First().First() < pairs.Last().First() == pairs.First().Last() > pairs.Last().Last();
+
+    private static bool HasOverlap(List<List<int>> pairs) =>
+        (pairs.First().First() <= pairs.Last().Last() && pairs.First().First() >= pairs.Last().First()) ||
+        (pairs.First().Last() <= pairs.Last().Last() && pairs.First().Last() >= pairs.Last().First()) ||
+        (pairs.First().First() < pairs.Last().First() && pairs.First().Last() > pairs.Last().Last());
 }
