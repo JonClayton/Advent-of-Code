@@ -22,8 +22,9 @@ public class Solution2022Dec05 : Solution
             }).Where(stack => stack.Any()).Select(stack => stack.Pop())
             .Aggregate(new StringBuilder(), (sb, c) => sb.Append(c)).ToString();
 
+    // This somewhat surprisingly reverses the order of the stacks
     private static List<Stack<char>> ConvertChartInformation(IEnumerable<Stack<char>> stacks) =>
-        stacks.Select(stack => new Stack<char>(stack.ToList())).ToList();
+        stacks.Select(stack => new Stack<char>(stack)).ToList();
 
     private static List<Stack<char>> MoveCrates(string line, List<Stack<char>> stacks, bool oneAtATime)
     {
