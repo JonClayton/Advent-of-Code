@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace AdventOfCode.Solutions2022;
 
 public class Solution2022Dec05 : Solution
@@ -7,47 +9,51 @@ public class Solution2022Dec05 : Solution
     protected override string FirstStringSolution(List<string> lines) => GeneralSolution(lines, true);
     protected override string SecondStringSolution(List<string> lines) => GeneralSolution(lines, false);
 
-    private static string GeneralSolution(IEnumerable<string> lines, bool reverse)
-    { 
-        var stacks = new List<List<char>>();
-        var readingStacks = true;
-        foreach (var line in lines)
-        {
-            if (string.IsNullOrWhiteSpace(line))
+    private static string GeneralSolution(List<string> lines, bool oneAtATime) =>
+        lines.Aggregate(new List<Stack<char>>(), (stacks, line) =>
             {
-                var reversedStacks = new List<List<char>>();
-                stacks.ForEach(stack =>
+                if (string.IsNullOrWhiteSpace(line)) return stacks;
+                return line[1] switch
                 {
-                    stack.Reverse();
-                    reversedStacks.Add(stack);
-                });
-                stacks = reversedStacks;
-                readingStacks = false;
-                continue;
-            }
+                    '1' => ConvertChartInformation(stacks),
+                    'o' => MoveCrates(line, stacks, oneAtATime),
+                    _ => ProcessInitialStackChart(line, stacks)
+                };
+            }).Where(stack => stack.Any()).Select(stack => stack.Pop())
+            .Aggregate(new StringBuilder(), (sb, c) => sb.Append(c)).ToString();
 
-            if (readingStacks)
-            {
-                if (line[1] == '1') continue;
-                for (var i = 0; i <= line.Length / 4; i ++)
-                {
-                    if (stacks.Count <= i) stacks.Add(new List<char>());
-                    if (line[i * 4 + 1] != ' ') stacks[i].Add(line[i * 4 + 1]); 
-                }
-            }
-            else
-            {
-                var parts = line.Split(" ");
-                var boxCount = int.Parse(parts[1]);
-                var from = stacks[int.Parse(parts[3]) - 1];
-                var to = stacks[int.Parse(parts[5]) - 1];
-                var boxesMoved = from.TakeLast(boxCount).ToList();
-                if(reverse) boxesMoved.Reverse();
-                to.AddRange(boxesMoved);
-                from.RemoveRange(from.Count - boxCount, boxCount);
-            }
+    private static List<Stack<char>> ConvertChartInformation(IEnumerable<Stack<char>> stacks) =>
+        stacks.Select(stack => new Stack<char>(stack.ToList())).ToList();
+
+    private static List<Stack<char>> MoveCrates(string line, List<Stack<char>> stacks, bool oneAtATime)
+    {
+        var parts = line.Split(" ");
+        var crateCount = int.Parse(parts[1]);
+        var finalDestination = stacks[int.Parse(parts[5]) - 1];
+        var crateMover = new List<char>();
+        while (crateCount > 0)
+        {
+            crateCount--;
+            var crate = stacks[int.Parse(parts[3]) - 1].Pop();
+            if (oneAtATime) finalDestination.Push(crate);
+            else crateMover.Add(crate);
         }
 
-        return new string(stacks.Where(stack => stack.Any()).Select(stack => stack.ToList().Last()).ToArray());
+        if (oneAtATime) return stacks;
+        crateMover.Reverse();
+        crateMover.ForEach(finalDestination.Push);
+        return stacks;
+    }
+
+    private static List<Stack<char>> ProcessInitialStackChart(string line, List<Stack<char>> stacks)
+    {
+        for (var stack = 0; stack <= line.Length / 4; stack++)
+        {
+            if (stacks.Count <= stack) stacks.Add(new Stack<char>());
+            var crateId = line[stack * 4 + 1];
+            if (crateId != ' ') stacks[stack].Push(crateId);
+        }
+
+        return stacks;
     }
 }
