@@ -4,6 +4,7 @@ public static class AdventOfCode2021
 {
     public static void Solve()
     {
+        new Solution2021Dec16().StatusReport();
 
         /*
         new Solution2021Dec02().StatusReport();

@@ -19,8 +19,10 @@ public class AdventOfCodeInputs
 
     [JsonPropertyName("first_test_results")]
     public List<long> FirstTestResults { get; set; } = new ();
-
-
+    
+    [JsonPropertyName("first_test_result_string")]
+    public string FirstTestResultString { get; set; }
+    
     [JsonPropertyName("second_test_input")]
     public string SecondTestInput { get; set; }
     
@@ -33,6 +35,9 @@ public class AdventOfCodeInputs
     [JsonPropertyName("second_test_results")]
     public List<long> SecondTestResults { get; set; }
 
+    [JsonPropertyName("second_test_result_string")]
+    public string SecondTestResultString { get; set; }
+    
     [JsonPropertyName("test_input")]
     public string TestInput { get; set; }
 
