@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-
 namespace AdventOfCode.Utilities;
 
 public static class Extensions
@@ -32,5 +29,13 @@ public static class Extensions
             .Zip(nums)
             .Select(z => z.First * z.Second)
             .Sum();
+    }
+
+    public static IEnumerable<TType> Pop<TType>(this List<TType> source, int count = 1, bool reverse = false)
+    {
+        var result = source.TakeLast(count).ToList();
+        source.RemoveRange(source.Count - count, count);
+        if (reverse) result.Reverse();
+        return result;
     }
 }
