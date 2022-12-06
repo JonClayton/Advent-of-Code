@@ -4,17 +4,10 @@ namespace AdventOfCode.Solutions2022;
 
 public class Solution2022Dec06 : Solution
 {
-    protected override long FirstSolution(List<string> lines) => GeneralSolution(lines, 4);
-    protected override long SecondSolution(List<string> lines) => GeneralSolution(lines, 14);
+    protected override long FirstSolution(List<string> lines) => GeneralSolution(lines.First(), 4);
+    protected override long SecondSolution(List<string> lines) => GeneralSolution(lines.First(), 14);
 
-    private static long GeneralSolution(List<string> lines, int count) 
-    {
-        var line = lines.First();
-        var i = count;
-        while (true)
-        {
-            if (new HashSet<char>(line[(i-count)..i]).Count.Equals(count)) return i;
-            i++;
-        }
-    }
+    private static long GeneralSolution(string line, int count) =>
+        Enumerable.Range(count, line.Length - count)
+            .First(i => new HashSet<char>(line.Substring(i - count, count)).Count.Equals(count));
 }
