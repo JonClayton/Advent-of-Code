@@ -1,5 +1,3 @@
-using System.Text;
-
 namespace AdventOfCode.Solutions2022;
 
 public class Solution2022Dec06 : Solution
