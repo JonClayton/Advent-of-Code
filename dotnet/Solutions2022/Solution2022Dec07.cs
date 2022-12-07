@@ -9,29 +9,31 @@ public class Solution2022Dec07 : Solution
 
     protected override long SecondSolution(List<string> lines)
     {
-        var directories = GetDirectories(lines);
-        var spaceRequired = directories.First().Size - 40000000;
-        return directories.Select(directory => directory.Size)
-            .Where(size => size >= spaceRequired)
-            .MinBy(size => size);
+        return GetDirectories(lines).Aggregate(new Tuple<long, long>(0, 0), (tuple, directory) =>
+        {
+            if (tuple.Item1 == 0) return new Tuple<long, long>(directory.Size - 40000000, 70000000);
+            if (tuple.Item2 > directory.Size && tuple.Item1 < directory.Size)
+                return new Tuple<long, long>(tuple.Item1, directory.Size);
+            return tuple;
+        }).Item2;
     }
     
-    private static List<Directory> GetDirectories(IEnumerable<string> lines)
+    private static IEnumerable<Directory> GetDirectories(IEnumerable<string> lines)
     {
         var root = new Directory();
-        var directoryList = new List<Directory> { root };
         var currentDirectory = root;
+        var directoryList = new List<Directory> { root };
         foreach (var parts in lines.Select(line => line.Split(" ")))
         {
-            if (parts.First().Equals("$")) ProcessCommand(parts);
+            if (parts[0].Equals("$")) ProcessCommand(parts);
             else ProcessDirectoryEntry(parts);
         }
 
         return directoryList;
 
-        void ProcessCommand(string[] parts)
+        void ProcessCommand(IReadOnlyList<string> parts)
         {
-            switch (parts.Last())
+            switch (parts[^1])
             {
                 case "/":
                     currentDirectory = root;
@@ -42,30 +44,33 @@ public class Solution2022Dec07 : Solution
                 case "ls":
                     break;
                 default:
-                    CreateSubDirectoryIfNotExists(parts.Last());
-                    currentDirectory = currentDirectory.Directories[parts.Last()];
+                    CreateSubDirectoryIfNotExists(parts[2]);
+                    currentDirectory = currentDirectory.Directories[parts[2]];
                     break;
             }
         }
 
-        void ProcessDirectoryEntry(string[] parts)
+        void ProcessDirectoryEntry(IReadOnlyList<string> parts)
         {
-            if (parts.First().Equals("dir")) CreateSubDirectoryIfNotExists(parts.Last());
-            else CreateFileIfNotExists(parts.Last(), long.Parse(parts.First()));
+            if (parts[0].Equals("dir")) CreateSubDirectoryIfNotExists(parts[1]);
+            else CreateFileIfNotExists(parts[1], long.Parse(parts[0]));
         }
         
         void CreateFileIfNotExists(string name, long size) => currentDirectory.Files.TryAdd(name, size); 
+       
         void CreateSubDirectoryIfNotExists(string name)
         {
-            if (currentDirectory.Directories.TryAdd(name, new Directory { Parent = currentDirectory })) directoryList.Add(currentDirectory.Directories[name]);
+            if (currentDirectory.Directories.TryAdd(name, new Directory { Parent = currentDirectory }))
+                directoryList.Add(currentDirectory.Directories[name]);
         }
     }
 }
 
 public class Directory
 {
-    public Dictionary<string, long> Files { get; set; } = new();
     public Dictionary<string, Directory> Directories { get; set; } = new();
+    public Dictionary<string, long> Files { get; set; } = new();
     public Directory Parent { get; set; }
-    public long Size => Files.Select(file => file.Value).Sum() + Directories.Select(directory => directory.Value.Size).Sum();
+    public long Size => Files.Select(file => file.Value).Sum() +
+                        Directories.Select(directory => directory.Value.Size).Sum();
 }
