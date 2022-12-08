@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace AdventOfCode.Classes;
 
 public class MapWithNeighbors<TType> where TType : LocationWithNeighbors, new()
