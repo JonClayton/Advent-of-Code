@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using AdventOfCode.Solutions2021;
 
 namespace AdventOfCode.Utilities;

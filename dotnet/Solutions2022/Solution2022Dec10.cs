@@ -1,9 +1,3 @@
-using System.Numerics;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.ComTypes;
-using System.Security.Principal;
-using System.Text;
-
 namespace AdventOfCode.Solutions2022;
 
 public class Solution2022Dec10 : Solution
