@@ -14,6 +14,7 @@ public static class AdventOfCode2022
         // new Solution2022Dec08().StatusReport();
         // new Solution2022Dec09().StatusReport();
         // new Solution2022Dec10().StatusReport();
-        new Solution2022Dec11().StatusReport();
+        // new Solution2022Dec11().StatusReport();
+        new Solution2022Dec12().StatusReport();
     }
 }
