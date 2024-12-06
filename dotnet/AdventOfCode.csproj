@@ -5,6 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <TargetFramework>net6.0</TargetFramework>
         <RootNamespace>AdventOfCode</RootNamespace>
+        <LangVersion>default</LangVersion>
     </PropertyGroup>
 
 </Project>

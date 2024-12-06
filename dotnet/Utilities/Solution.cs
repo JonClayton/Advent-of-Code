@@ -116,15 +116,22 @@ public abstract class Solution
         return strings.Select(int.Parse).ToList();
     }
     
-    protected static IEnumerable<List<int>> ConvertToChunkedIntegers(IEnumerable<string> strings)
+    protected static IEnumerable<List<int>> ConvertToChunkedIntegers(IEnumerable<string> strings, string separator = ",")
     {
         var chunkedIntegers = new List<List<int>> { new() };
         foreach (var str in strings)
+        {
             if (string.IsNullOrEmpty(str)) chunkedIntegers.Add(new List<int>());
-            else chunkedIntegers[^1].Add(int.Parse(str));
+            else
+            {
+                if (int.TryParse(str, out var value)) chunkedIntegers[^1].Add(value);
+                else chunkedIntegers.Add(str.Split(separator).Select(int.Parse).ToList());
+            }
+        }
+        if (chunkedIntegers.First().Count == 0) chunkedIntegers.RemoveAt(0);
         return chunkedIntegers;
     }
-
+    
     private void ReportFailedTest(string part, string result, string expectedResult)
     {
         if (expectedResult.Equals(-1))

@@ -8,6 +8,7 @@ using AdventOfCode.Solutions2019;
 using AdventOfCode.Solutions2020;
 using AdventOfCode.Solutions2021;
 using AdventOfCode.Solutions2022;
+using AdventOfCode.Solutions2024;
 
 // AdventOfCode2015.Solve();
 // AdventOfCode2016.Solve();
@@ -16,4 +17,5 @@ using AdventOfCode.Solutions2022;
 // AdventOfCode2019.Solve();
 // AdventOfCode2020.Solve();
 // AdventOfCode2021.Solve();
-AdventOfCode2022.Solve();
+// AdventOfCode2022.Solve();
+AdventOfCode2024.Solve();
