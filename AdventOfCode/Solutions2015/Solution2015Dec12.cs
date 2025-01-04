@@ -1,25 +1,37 @@
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Text.RegularExpressions;
+using System.Text.Json.Nodes;
 
 namespace AdventOfCode.Solutions2015;
 
-public partial class Solution2015Dec12 : Solution<long?>
-{    
-    [GeneratedRegex("(-?\\d+)")]
-    private static partial Regex NumberRegex();
-
-    protected override long? FirstSolution(List<string> lines) => lines
-        .SelectMany(line => NumberRegex().Matches(line).Select(match => long.Parse(match.Value))).Sum();
+public class Solution2015Dec12 : Solution<long?>
+{
+    private bool _excludeRed;
+    
+    protected override long? FirstSolution(List<string> lines) => GeneralSolution(lines);
 
     protected override long? SecondSolution(List<string> lines)
     {
-        var json = lines.First();
-        var doc = JsonDocument.Parse(json);
-        // doc.RootElement.
-        return lines.SelectMany(line => NumberRegex().Matches(line).Select(match => long.Parse(match.Value))).Sum();
+        _excludeRed = true;
+        return GeneralSolution(lines);
     }
 
-    [GeneratedRegex("(\\d+)")]
-    private static partial Regex MyRegex1();
+    private long GeneralSolution(List<string> lines) => Value(JsonNode.Parse(lines.First())!);
+
+    private long Value(dynamic input)
+    {
+        return input switch
+        {
+            JsonObject jsonObject => ValueJsonObject(jsonObject),
+            JsonArray jsonArray => jsonArray.Sum(Value!),
+            _ => (input as JsonValue)!.GetValueKind() is JsonValueKind.Number
+                ? (input as JsonValue)!.GetValue<long>()
+                : 0
+        };
+    }
+
+    private long ValueJsonObject(JsonObject jsonObject) =>
+        _excludeRed && jsonObject.Any(property =>
+            property.Value!.GetValueKind() is JsonValueKind.String && property.Value.GetValue<string>() == "red")
+            ? 0
+            : jsonObject.Sum(property => Value(property.Value!));
 }
