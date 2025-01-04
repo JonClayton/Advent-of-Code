@@ -1,4 +1,6 @@
-namespace AdventOfCode.Solutions2022;
+using OldAdventOfCode.Utilities;
+
+namespace OldAdventOfCode.Solutions2022;
 
 public class Solution2022Dec12 : Solution
 {

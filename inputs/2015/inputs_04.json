@@ -1,0 +1,7 @@
+{
+  "puzzle_input": "bgvyzdsv",
+  "test_1_inputs": ["abcdef","pqrstuv"],
+  "test_1_results": [609043,1048970],
+  "test_2_inputs": ["abcdef","pqrstuv"],
+  "test_2_results": [6742839,5714438]
+}

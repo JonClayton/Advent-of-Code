@@ -4,10 +4,10 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 using System.Xml.Schema;
-using AdventOfCode.Classes;
-using AdventOfCode.Utilities;
+using OldAdventOfCode.Classes;
+using OldAdventOfCode.Utilities;
 
-namespace AdventOfCode.Solutions2021;
+namespace OldAdventOfCode.Solutions2021;
 
 public class Solution2021Dec15F : Solution
 {

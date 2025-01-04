@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using AdventOfCode.Utilities;
+using OldAdventOfCode.Utilities;
 
-namespace AdventOfCode.Solutions2021;
+namespace OldAdventOfCode.Solutions2021;
 
 public class Solution2021Dec01 : Solution
 {
@@ -18,7 +18,7 @@ public class Solution2021Dec01 : Solution
 
     private static long GeneralSolution(IReadOnlyCollection<string> lines, int indexesBack)
     {
-        return ConvertToIntegers(lines)
-            .Where((v, i) => i >= indexesBack && v > ConvertToIntegers(lines)[i - indexesBack]).Count();
+        return ConvertToIntegerList(lines)
+            .Where((v, i) => i >= indexesBack && v > ConvertToIntegerList(lines)[i - indexesBack]).Count();
     }
 }

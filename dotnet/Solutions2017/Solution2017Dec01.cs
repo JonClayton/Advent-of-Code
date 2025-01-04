@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using AdventOfCode.Utilities;
+using OldAdventOfCode.Utilities;
 
-namespace AdventOfCode.Solutions2017;
+namespace OldAdventOfCode.Solutions2017;
 
 public class Solution2017Dec01 : Solution
 {

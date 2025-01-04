@@ -1,4 +1,6 @@
-namespace AdventOfCode.Solutions2022;
+using OldAdventOfCode.Utilities;
+
+namespace OldAdventOfCode.Solutions2022;
 
 public class Solution2022Dec01 : Solution
 {
@@ -7,7 +9,7 @@ public class Solution2022Dec01 : Solution
     protected override long SecondSolution(List<string> lines) => GeneralSolution(lines, 3);
 
     private static long GeneralSolution(IEnumerable<string> lines, int count) =>
-        ConvertToChunkedIntegers(lines)
+        ConvertToIntegerLists(lines)
             .Select(calories => calories.Sum())
             .OrderByDescending(i => i)
             .Take(count)

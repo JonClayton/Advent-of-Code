@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using AdventOfCode.Classes;
-using AdventOfCode.Utilities;
+using OldAdventOfCode.Classes;
+using OldAdventOfCode.Utilities;
 
-namespace AdventOfCode.Solutions2021;
+namespace OldAdventOfCode.Solutions2021;
 
 public class Solution2021Dec14 : Solution
 {

@@ -1,6 +1,7 @@
 using System.Numerics;
+using OldAdventOfCode.Utilities;
 
-namespace AdventOfCode.Solutions2022;
+namespace OldAdventOfCode.Solutions2022;
 
 public class Solution2022Dec09 : Solution
 {

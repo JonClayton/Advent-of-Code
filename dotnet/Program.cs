@@ -1,14 +1,13 @@
-﻿global using AdventOfCode.Classes;
-global using AdventOfCode.Utilities;
-using AdventOfCode.Solutions2015;
-using AdventOfCode.Solutions2016;
-using AdventOfCode.Solutions2017;
-using AdventOfCode.Solutions2018;
-using AdventOfCode.Solutions2019;
-using AdventOfCode.Solutions2020;
-using AdventOfCode.Solutions2021;
-using AdventOfCode.Solutions2022;
-using AdventOfCode.Solutions2024;
+﻿global using OldAdventOfCode.Classes;
+global using OldAdventOfCode.Utilities;
+using OldAdventOfCode.Solutions2016;
+using OldAdventOfCode.Solutions2017;
+using OldAdventOfCode.Solutions2018;
+using OldAdventOfCode.Solutions2019;
+using OldAdventOfCode.Solutions2020;
+using OldAdventOfCode.Solutions2021;
+using OldAdventOfCode.Solutions2022;
+using OldAdventOfCode.Solutions2024;
 
 // AdventOfCode2015.Solve();
 // AdventOfCode2016.Solve();

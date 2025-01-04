@@ -1,5 +1,7 @@
 using System.Numerics;
-namespace AdventOfCode.Solutions2021;
+using OldAdventOfCode.Utilities;
+
+namespace OldAdventOfCode.Solutions2021;
 // Orientations represent the possible alignments of Scanners
 // The numbers represent changes in order of the axes, and the sign shows a sign change.
 // For example, (1, 3, -2) means that (x, y, z) would be reported as (x, z, -y).

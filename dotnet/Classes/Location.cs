@@ -1,8 +1,8 @@
-namespace AdventOfCode.Classes;
+namespace OldAdventOfCode.Classes;
 
 public class Location
 {
     public int Column;
     public int Row;
-    public int Value;
+    public dynamic Value;
 }

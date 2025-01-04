@@ -1,6 +1,8 @@
-namespace AdventOfCode.Solutions2024;
+using OldAdventOfCode.Classes2024;
 
-public class Solution2024Dec01 : Solution
+namespace OldAdventOfCode.Solutions2024;
+
+public class Solution2024Dec01 : Solution2024
 {
     protected override long FirstSolution(List<string> lines) => GetLists(lines)
         .Aggregate(
@@ -13,12 +15,12 @@ public class Solution2024Dec01 : Solution
 
     protected override long SecondSolution(List<string> lines)
     {
-     var lists = GetLists(lines);
-     var groups = lists.Last().GroupBy(item => item).ToDictionary(group => group.Key, group => group.Count());
-     return lists.First().Where(i => groups.ContainsKey(i)).Sum(i => groups[i] * i);
+        var lists = GetLists(lines);
+        var groups = lists.Last().GroupBy(item => item).ToDictionary(group => group.Key, group => group.Count());
+        return lists.First().Where(i => groups.ContainsKey(i)).Sum(i => groups[i] * i);
     }
 
-    private static List<List<int>> GetLists(IEnumerable<string> lines) => ConvertToChunkedIntegers(lines, "   ")
+    private static List<List<int>> GetLists(IEnumerable<string> lines) => ConvertToIntegerLists(lines, "   ")
         .Aggregate(Enumerable.Range(1, 2).Select(i => new List<int>()).ToList(), (agg, next) =>
         {
             agg.First().Add(next.First());

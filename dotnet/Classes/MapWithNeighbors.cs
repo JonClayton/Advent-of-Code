@@ -1,4 +1,4 @@
-namespace AdventOfCode.Classes;
+namespace OldAdventOfCode.Classes;
 
 public class MapWithNeighbors<TType> where TType : LocationWithNeighbors, new()
 {

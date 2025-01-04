@@ -1,4 +1,4 @@
-namespace AdventOfCode.Utilities;
+namespace OldAdventOfCode.Utilities;
 
 public static class Extensions
 {

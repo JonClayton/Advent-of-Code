@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AdventOfCode.Classes;
-using AdventOfCode.Utilities;
+using OldAdventOfCode.Classes;
+using OldAdventOfCode.Utilities;
 
-namespace AdventOfCode.Solutions2019;
+namespace OldAdventOfCode.Solutions2019;
 
 public class Solution2019Dec01 : Solution
 {

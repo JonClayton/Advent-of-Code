@@ -1,7 +1,4 @@
-using System.Collections.Generic;
-using System.Linq;
-
-namespace AdventOfCode.Classes;
+namespace OldAdventOfCode.Classes;
 
 internal abstract class CohortCounter<TType>
 {

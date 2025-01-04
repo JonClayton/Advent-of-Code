@@ -1,11 +1,11 @@
-using AdventOfCode.Solutions2021;
+using OldAdventOfCode.Solutions2021;
 
-namespace AdventOfCode.Utilities;
+namespace OldAdventOfCode.Utilities;
 
 public class CavePath
 {
-    public HashSet<Cave> SmallCavesVisited;
-    public bool IsSingleSecondVisitComplete;
+    public readonly HashSet<Cave> SmallCavesVisited;
+    public readonly bool IsSingleSecondVisitComplete;
     public Cave CurrentCave;
 
     public CavePath(Cave cave, bool isSecondVisitAllowed, HashSet<Cave> smallCavesVisited = null)

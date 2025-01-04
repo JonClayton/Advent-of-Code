@@ -1,7 +1,6 @@
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace AdventOfCode.Classes;
+namespace OldAdventOfCode.Classes;
 
 public class AdventOfCodeInputs
 {

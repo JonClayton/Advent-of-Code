@@ -1,0 +1,6 @@
+{
+  "puzzle_input": "hxbxwxba",
+  "test_input": "abcdefgh",
+  "test_1_result": "abcdffaa",
+  "test_2_result": "abcdffbb"
+}

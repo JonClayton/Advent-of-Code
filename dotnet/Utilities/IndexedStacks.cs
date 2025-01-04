@@ -1,4 +1,4 @@
-namespace AdventOfCode.Utilities;
+namespace OldAdventOfCode.Utilities;
 
 public interface IIndexedValue
 {
@@ -38,12 +38,13 @@ public class IndexedStacks<TType> where TType : IIndexedValue
             return Pop();
         }
     }
-    
-    public class ReverseComparer<T> : IComparer<T> where T : IComparable<T>
+
+    private class ReverseComparer<T> : IComparer<T> where T : IComparable<T>
     {
         public int Compare(T obj1, T obj2)
         {
-            return -(obj1.CompareTo(obj2));
+            if (obj1 is null || obj2 is null) throw new NullReferenceException();
+            return -obj1.CompareTo(obj2);
         }
     }
 }

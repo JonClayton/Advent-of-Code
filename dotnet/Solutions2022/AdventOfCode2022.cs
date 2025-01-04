@@ -1,4 +1,4 @@
-namespace AdventOfCode.Solutions2022;
+namespace OldAdventOfCode.Solutions2022;
 
 public static class AdventOfCode2022
 {
