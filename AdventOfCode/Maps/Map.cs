@@ -2,8 +2,52 @@
 
 namespace AdventOfCode.Maps;
 
-public class Map<TType, TType2>(IEnumerable<TType> locations) where TType : Location<TType2>
+public class Map<TType, TType2> where TType : Location<TType2>
 {
-    public Dictionary<Vector2,TType> Locations { get; } = locations.ToDictionary(location => new Vector2(location.X, location.Y), location => location);
+    public int XRange;
+    public int YRange;
 
+    public Map(IEnumerable<string> input, Func<char, TType> locationFactory, bool assignNeighbors = false)
+    {
+        var lines = input.ToList();
+        YRange = lines.Count;
+        XRange = lines[0].Length;
+        Locations = CreateDirectory(lines.SelectMany((line, y) =>
+            line.Select((c, x) => CreateLocation(x, y, c, locationFactory))));
+        if (assignNeighbors) AssignNeighbors();
+    }
+
+    public Map(int xRange, int yRange, Func<TType> locationFactory, bool assignNeighbors = false)
+    {
+        XRange = xRange;
+        YRange = yRange;
+        Locations = CreateDirectory(Enumerable.Range(0, xRange).SelectMany(x =>
+            Enumerable.Range(0, yRange).Select(y => CreateLocation(x, y, ' ', (char _) => locationFactory()))));
+        if (assignNeighbors) AssignNeighbors();
+    }
+
+    private static TType CreateLocation(int x, int y, char c, Func<char, TType> locationFactory)
+    {
+        var location = locationFactory(c);
+        location.Coordinates = new Vector2(x, y);
+        return location;
+    }
+
+    private static Dictionary<Vector2, TType> CreateDirectory(IEnumerable<TType> locations) =>
+        locations.ToDictionary(location => location.Coordinates, location => location);
+
+    public Dictionary<Vector2, TType> Locations { get; }
+
+    public bool TryMove(TType location, Direction direction, out TType? result) =>
+        Locations.TryGetValue(location.Coordinates + Tools.Moves[direction], out result);
+
+    public void AssignNeighbors()
+    {
+        foreach (var location in Locations.Values)
+        {
+            foreach (var (direction, vector) in Tools.Moves)
+                if (Locations.TryGetValue(location.Coordinates - vector, out var neighbor))
+                    neighbor.Neighbors.Add(direction, location);
+        }
+    }
 }

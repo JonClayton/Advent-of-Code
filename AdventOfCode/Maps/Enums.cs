@@ -1,6 +1,13 @@
 ﻿namespace AdventOfCode.Maps;
 
-public enum Enums
+public enum Direction
 {
-    
+    N,
+    Ne,
+    E,
+    Se,
+    S,
+    Sw,
+    W,
+    Nw
 }

@@ -1,8 +1,10 @@
-﻿namespace AdventOfCode.Maps;
+﻿using System.Numerics;
 
-public class Location<TType>(int x, int y, TType value)
+namespace AdventOfCode.Maps;
+
+public class Location<TType>(TType value)
 {
-    public int X { get; } = x;
-    public int Y { get; } = y;
+    public Dictionary<Direction, Location<TType>> Neighbors { get; set; } = new();
+    public Vector2 Coordinates { get; set; } = Vector2.Zero;
     public TType Value { get; set; } = value;
 }

@@ -24,8 +24,7 @@ public partial class Solution2015Dec06 : Solution<long?>
     
     private long GeneralSolution(List<string> lines, bool isFirstSolution)
     {
-        _lightGrid = new Map<Location<int>, int>(Enumerable.Range(0, 1000)
-            .SelectMany(x => Enumerable.Range(0, 1000).Select(y => new Location<int>(x, y, 0))));
+        _lightGrid = new Map<Location<int>, int>(1000, 1000, () => new Location<int>(0));
         lines.Select(line => new Instruction(MyRegex().Match(line).Groups)).ToList()
             .ForEach(instruction => FollowInstruction(instruction, isFirstSolution ? PerformAction1 : PerformAction2));
         return _lightGrid.Locations.Sum(pair => pair.Value.Value);
