@@ -16,5 +16,10 @@ public static class AdventOfCode2015
         new Solution2015Dec10().Run(true);
         new Solution2015Dec11().Run(true);
         new Solution2015Dec12().Run();
+        new Solution2015Dec13().Run(true);
+        new Solution2015Dec14().Run();
+        new Solution2015Dec15().Run();
+        new Solution2015Dec16().Run();
+        new Solution2015Dec17().Run();
     }
 }

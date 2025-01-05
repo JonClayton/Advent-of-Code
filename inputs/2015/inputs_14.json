@@ -1,6 +1,6 @@
 {
-  "puzzle_input": "xxx",
-  "test_input": "xxx",
-  "test_1_result": 42,
-  "test_2_result": 42
+  "puzzle_input": "Dancer can fly 27 km/s for 5 seconds, but then must rest for 132 seconds.\nCupid can fly 22 km/s for 2 seconds, but then must rest for 41 seconds.\nRudolph can fly 11 km/s for 5 seconds, but then must rest for 48 seconds.\nDonner can fly 28 km/s for 5 seconds, but then must rest for 134 seconds.\nDasher can fly 4 km/s for 16 seconds, but then must rest for 55 seconds.\nBlitzen can fly 14 km/s for 3 seconds, but then must rest for 38 seconds.\nPrancer can fly 3 km/s for 21 seconds, but then must rest for 40 seconds.\nComet can fly 18 km/s for 6 seconds, but then must rest for 103 seconds.\nVixen can fly 18 km/s for 5 seconds, but then must rest for 84 seconds.",
+  "test_input": "Comet can fly 14 km/s for 10 seconds, but then must rest for 127 seconds.\nDancer can fly 16 km/s for 11 seconds, but then must rest for 162 seconds.",
+  "test_1_result": 2660,
+  "test_2_result": 1564
 }
