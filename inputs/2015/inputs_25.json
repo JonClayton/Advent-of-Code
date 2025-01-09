@@ -1,6 +1,6 @@
 {
-  "puzzle_input": "xxx",
-  "test_input": "xxx",
-  "test_1_result": 42,
+  "puzzle_input": "To continue, please consult the code grid in the manual.  Enter the code at row 2947, column 3029.",
+  "test_input": "To continue, please consult the code grid in the manual.  Enter the code at row 2, column 1.",
+  "test_1_result": 31916031,
   "test_2_result": 42
 }

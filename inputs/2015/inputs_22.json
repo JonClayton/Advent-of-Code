@@ -1,6 +1,6 @@
 {
-  "puzzle_input": "xxx",
-  "test_input": "xxx",
+  "puzzle_input": "Hit Points: 55\nDamage: 8",
+  "test_input": "Hit Points: 14\nDamage: 8",
   "test_1_result": 42,
   "test_2_result": 42
 }

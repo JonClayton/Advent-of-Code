@@ -4,6 +4,23 @@ namespace AdventOfCode.Tools;
 
 public static class Extensions
 {
+    public static HashSet<TType> AddAndReturn<TType>(this HashSet<TType> hashSet, TType input)
+    { 
+        hashSet.Add(input);
+        return hashSet;
+    }
+    
+    public static void AddRange<TType>(this HashSet<TType> hashSet, IEnumerable<TType> input)
+    {
+        foreach (var member in input) hashSet.Add(member);
+    }
+    
+    public static HashSet<TType> AddRangeAndReturn<TType>(this HashSet<TType> hashSet, IEnumerable<TType> input)
+    {
+        hashSet.AddRange(input);
+        return hashSet;
+    }
+    
     public static long Product(this IEnumerable<long> nums)
     {
         return nums.Aggregate((long)1, (i, i1) => i * i1);
@@ -18,7 +35,12 @@ public static class Extensions
     }
     
     public static string ConcatInOrder(this string a, string b) => string.Compare(a, b, StringComparison.InvariantCulture) < 0 ? a + b : b + a;
-    
+
+    public static bool Equals(this List<int> a, List<int> b)
+    {
+        return a.Count == b.Count && a.Select((item, index) => b[index] == item).All(same => same);
+    }
+
     // public static int Product(this IEnumerable<int> nums)
     // {
     //     return nums.Aggregate(1, (i, i1) => i * i1);

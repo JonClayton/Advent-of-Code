@@ -1,6 +1,6 @@
 {
-  "puzzle_input": "xxx",
-  "test_input": "xxx",
-  "test_1_result": 42,
-  "test_2_result": 42
+  "puzzle_input": "29000000",
+  "test_input": "150",
+  "test_1_result": 8,
+  "test_2_result": 8
 }

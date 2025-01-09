@@ -131,6 +131,11 @@ public abstract partial class Solution<TType>
         return true;
     }
 
+    protected static List<List<string>> Separate(List<string> input)
+    {
+        return [input[..input.FindIndex(string.IsNullOrEmpty)], input[(input.FindIndex(string.IsNullOrEmpty) + 1)..]];
+    }
+
     // protected static List<int> ConvertToIntegerList(IEnumerable<string> strings) =>  strings.Select(int.Parse).ToList();
     //
     // protected static IEnumerable<List<int>> ConvertToIntegerLists(IEnumerable<string> strings, string separator = ",")
