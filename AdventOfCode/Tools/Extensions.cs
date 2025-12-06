@@ -4,37 +4,43 @@ namespace AdventOfCode.Tools;
 
 public static class Extensions
 {
-    public static HashSet<TType> AddAndReturn<TType>(this HashSet<TType> hashSet, TType input)
-    { 
-        hashSet.Add(input);
-        return hashSet;
-    }
-    
-    public static void AddRange<TType>(this HashSet<TType> hashSet, IEnumerable<TType> input)
+    extension<TType>(HashSet<TType> hashSet)
     {
-        foreach (var member in input) hashSet.Add(member);
+        public HashSet<TType> AddAndReturn(TType input)
+        { 
+            hashSet.Add(input);
+            return hashSet;
+        }
+
+        public void AddRange(IEnumerable<TType> input)
+        {
+            foreach (var member in input) hashSet.Add(member);
+        }
+
+        public HashSet<TType> AddRangeAndReturn(IEnumerable<TType> input)
+        {
+            hashSet.AddRange(input);
+            return hashSet;
+        }
     }
-    
-    public static HashSet<TType> AddRangeAndReturn<TType>(this HashSet<TType> hashSet, IEnumerable<TType> input)
-    {
-        hashSet.AddRange(input);
-        return hashSet;
-    }
-    
+
     public static long Product(this IEnumerable<long> nums)
     {
         return nums.Aggregate((long)1, (i, i1) => i * i1);
     }
 
-    public static string RemoveWhitespace(this string source)
+    extension(string source)
     {
-        var builder = new StringBuilder(source.Length);
-        foreach (var c in source.Where(c => !char.IsWhiteSpace(c)))
-            builder.Append(c);
-        return source.Length == builder.Length ? source : builder.ToString();
+        public string RemoveWhitespace()
+        {
+            var builder = new StringBuilder(source.Length);
+            foreach (var c in source.Where(c => !char.IsWhiteSpace(c)))
+                builder.Append(c);
+            return source.Length == builder.Length ? source : builder.ToString();
+        }
+
+        public string ConcatInOrder(string b) => string.Compare(source, b, StringComparison.InvariantCulture) < 0 ? source + b : b + source;
     }
-    
-    public static string ConcatInOrder(this string a, string b) => string.Compare(a, b, StringComparison.InvariantCulture) < 0 ? a + b : b + a;
 
     public static bool Equals(this List<int> a, List<int> b)
     {
