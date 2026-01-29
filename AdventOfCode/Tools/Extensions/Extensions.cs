@@ -14,11 +14,11 @@ public static class Extensions
 
     extension<TType>(HashSet<TType> hashSet)
     {
-        // public HashSet<TType> AddAndReturn(TType input)
-        // { 
-        //     hashSet.Add(input);
-        //     return hashSet;
-        // }
+        public HashSet<TType> AddAndReturn(TType input)
+        { 
+            hashSet.Add(input);
+            return hashSet;
+        }
 
         public void AddRange(IEnumerable<TType> input)
         {
