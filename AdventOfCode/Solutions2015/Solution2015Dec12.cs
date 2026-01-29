@@ -6,8 +6,11 @@ namespace AdventOfCode.Solutions2015;
 public class Solution2015Dec12 : Solution<long?>
 {
     private bool _excludeRed;
-    
-    protected override long? FirstSolution(List<string> lines) => GeneralSolution(lines);
+
+    protected override long? FirstSolution(List<string> lines)
+    {
+        return GeneralSolution(lines);
+    }
 
     protected override long? SecondSolution(List<string> lines)
     {
@@ -15,7 +18,10 @@ public class Solution2015Dec12 : Solution<long?>
         return GeneralSolution(lines);
     }
 
-    private long GeneralSolution(List<string> lines) => Value(JsonNode.Parse(lines.First())!);
+    private long GeneralSolution(List<string> lines)
+    {
+        return Value(JsonNode.Parse(lines.First())!);
+    }
 
     private long Value(dynamic input)
     {
@@ -29,9 +35,11 @@ public class Solution2015Dec12 : Solution<long?>
         };
     }
 
-    private long ValueJsonObject(JsonObject jsonObject) =>
-        _excludeRed && jsonObject.Any(property =>
+    private long ValueJsonObject(JsonObject jsonObject)
+    {
+        return _excludeRed && jsonObject.Any(property =>
             property.Value!.GetValueKind() is JsonValueKind.String && property.Value.GetValue<string>() == "red")
             ? 0
             : jsonObject.Sum(property => Value(property.Value!));
+    }
 }

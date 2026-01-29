@@ -1,16 +1,24 @@
-using System.Text;
-
-namespace AdventOfCode.Tools;
+namespace AdventOfCode.Tools.Extensions;
 
 public static class Extensions
 {
+    public static long Product(this IEnumerable<long> nums)
+    {
+        return nums.Aggregate((long)1, (i, i1) => i * i1);
+    }
+
+    public static bool Equals(this List<int> a, List<int> b)
+    {
+        return a.Count == b.Count && a.Select((item, index) => b[index] == item).All(same => same);
+    }
+
     extension<TType>(HashSet<TType> hashSet)
     {
-        public HashSet<TType> AddAndReturn(TType input)
-        { 
-            hashSet.Add(input);
-            return hashSet;
-        }
+        // public HashSet<TType> AddAndReturn(TType input)
+        // { 
+        //     hashSet.Add(input);
+        //     return hashSet;
+        // }
 
         public void AddRange(IEnumerable<TType> input)
         {
@@ -24,27 +32,15 @@ public static class Extensions
         }
     }
 
-    public static long Product(this IEnumerable<long> nums)
+    extension(int)
     {
-        return nums.Aggregate((long)1, (i, i1) => i * i1);
-    }
-
-    extension(string source)
-    {
-        public string RemoveWhitespace()
+        /// <summary>Converts the string representation of a number in invariant culture to its 32-bit signed integer equivalent.</summary>
+        /// <param name="s">A string containing a number to convert.</param>
+        /// <returns>A 32-bit signed integer equivalent to the number specified in s.</returns>
+        public static int Read(string s)
         {
-            var builder = new StringBuilder(source.Length);
-            foreach (var c in source.Where(c => !char.IsWhiteSpace(c)))
-                builder.Append(c);
-            return source.Length == builder.Length ? source : builder.ToString();
+            return int.Parse(s, CultureInfo.InvariantCulture);
         }
-
-        public string ConcatInOrder(string b) => string.Compare(source, b, StringComparison.InvariantCulture) < 0 ? source + b : b + source;
-    }
-
-    public static bool Equals(this List<int> a, List<int> b)
-    {
-        return a.Count == b.Count && a.Select((item, index) => b[index] == item).All(same => same);
     }
 
     // public static int Product(this IEnumerable<int> nums)

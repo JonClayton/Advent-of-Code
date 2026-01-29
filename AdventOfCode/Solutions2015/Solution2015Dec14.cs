@@ -2,9 +2,15 @@ namespace AdventOfCode.Solutions2015;
 
 public class Solution2015Dec14 : Solution<long?>
 {
-    protected override long? FirstSolution(List<string> lines) => GeneralSolution(lines, true);
+    protected override long? FirstSolution(List<string> lines)
+    {
+        return GeneralSolution(lines, true);
+    }
 
-    protected override long? SecondSolution(List<string> lines) => GeneralSolution(lines, false);
+    protected override long? SecondSolution(List<string> lines)
+    {
+        return GeneralSolution(lines, false);
+    }
 
     private static long GeneralSolution(List<string> lines, bool isFirstSolution)
     {
@@ -14,9 +20,10 @@ public class Solution2015Dec14 : Solution<long?>
         while (t <= 2503)
         {
             var scoreboard = herd.ToDictionary(reindeer => reindeer, reindeer => reindeer.DistanceTraveled(t));
-            scoreboard.Where(pair => pair.Value == scoreboard.Values.Max()).ToList().ForEach(pair => pair.Key.Score ++);
+            scoreboard.Where(pair => pair.Value == scoreboard.Values.Max()).ToList().ForEach(pair => pair.Key.Score++);
             t++;
         }
+
         return herd.Select(reindeer => reindeer.Score).Max();
     }
 
@@ -25,11 +32,16 @@ public class Solution2015Dec14 : Solution<long?>
         public Reindeer(string input)
         {
             var chunks = input.Split(" ");
-            Name = chunks[0];
-            Speed = int.Parse(chunks[3]);
-            Endurance = int.Parse(chunks[6]);
-            Rest = int.Parse(chunks[13]);
+            Speed = int.Read(chunks[3]);
+            Endurance = int.Read(chunks[6]);
+            Rest = int.Read(chunks[13]);
         }
+
+        private int Endurance { get; }
+        private int Speed { get; }
+        private int Rest { get; }
+
+        public long Score { get; set; }
 
         public long DistanceTraveled(int seconds)
         {
@@ -37,12 +49,5 @@ public class Solution2015Dec14 : Solution<long?>
             var modulo = seconds % (Endurance + Rest);
             return Speed * (Endurance * cycles + (modulo > Endurance ? Endurance : modulo));
         }
-
-        public string Name  { get; }
-        private int Endurance { get; }
-        private int Speed  { get; }
-        private int Rest { get; }
-        
-        public long Score { get; set; }
     }
 }

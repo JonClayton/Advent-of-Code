@@ -1,41 +1,8 @@
-using System.Text.RegularExpressions;
-using AdventOfCode.Solutions2015.RPG;
-
 namespace AdventOfCode.Solutions2015;
 
 public partial class Solution2015Dec21 : Solution<long?>
 {
-
-    [GeneratedRegex(Utilities.RegexForNumberFind)]
-    private static partial Regex NumsRegex();
-
     private const int Budget = 100;
-    protected override long? FirstSolution(List<string> lines) => GeneralSolution(lines, true);
-
-    protected override long? SecondSolution(List<string> lines) => GeneralSolution(lines, false);
-
-    private static long GeneralSolution(List<string> lines, bool isFirstSolution)
-    {
-        var nums = lines.Select(line => int.Parse(NumsRegex().Match(line).Value)).ToList();
-        var hitPoints = nums[0];
-        var builds = isFirstSolution
-            ? GetBuildsOrderedByCost(Budget)
-            : GetBuildsOrderedByCost(int.MaxValue).OrderByDescending(items => items.Sum(item => item.Cost)).ToList();
-        var characterHitPoints = hitPoints == 12 ? 8 : 100;
-        return builds
-            .First(build => isFirstSolution == new Battle(new Character(build, characterHitPoints),
-                new Character([], hitPoints, nums[1], nums[2])).IsWonByHero()).Sum(item => item.Cost);
-    }
-
-    private static List<List<Item>> GetBuildsOrderedByCost(int budget) => (
-        from weapon in Weapons
-        from armor in Armor
-        from ring1 in Rings
-        from ring2 in Rings
-        select new List<Item> { weapon.Value, armor.Value, ring1.Value, ring2.Value }
-        into build
-        where build.Sum(item => item.Cost) <= budget
-        select build).Where(items => items[2] != items[3]).OrderBy(build => build.Sum(item => item.Cost)).ToList();
 
 
     private static readonly Dictionary<string, Item> Weapons = new()
@@ -68,4 +35,43 @@ public partial class Solution2015Dec21 : Solution<long?>
         { "empty right", new Item(0, 0, 0) },
         { "empty left", new Item(0, 0, 0) }
     };
+
+    [GeneratedRegex(Utilities.RegexForNumberFind)]
+    private static partial Regex NumsRegex();
+
+    protected override long? FirstSolution(List<string> lines)
+    {
+        return GeneralSolution(lines, true);
+    }
+
+    protected override long? SecondSolution(List<string> lines)
+    {
+        return GeneralSolution(lines, false);
+    }
+
+    private static long GeneralSolution(List<string> lines, bool isFirstSolution)
+    {
+        var nums = lines.Select(line => int.Read(NumsRegex().Match(line).Value)).ToList();
+        var hitPoints = nums[0];
+        var builds = isFirstSolution
+            ? GetBuildsOrderedByCost(Budget)
+            : GetBuildsOrderedByCost(int.MaxValue).OrderByDescending(items => items.Sum(item => item.Cost)).ToList();
+        var characterHitPoints = hitPoints == 12 ? 8 : 100;
+        return builds
+            .First(build => isFirstSolution == new Battle(new Character(build, characterHitPoints),
+                new Character([], hitPoints, nums[1], nums[2])).IsWonByHero()).Sum(item => item.Cost);
+    }
+
+    private static List<List<Item>> GetBuildsOrderedByCost(int budget)
+    {
+        return (
+            from weapon in Weapons
+            from armor in Armor
+            from ring1 in Rings
+            from ring2 in Rings
+            select new List<Item> { weapon.Value, armor.Value, ring1.Value, ring2.Value }
+            into build
+            where build.Sum(item => item.Cost) <= budget
+            select build).Where(items => items[2] != items[3]).OrderBy(build => build.Sum(item => item.Cost)).ToList();
+    }
 }

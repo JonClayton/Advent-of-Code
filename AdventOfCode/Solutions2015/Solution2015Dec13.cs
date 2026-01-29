@@ -2,9 +2,15 @@ namespace AdventOfCode.Solutions2015;
 
 public class Solution2015Dec13 : Solution<long?>
 {
-    protected override long? FirstSolution(List<string> lines) => GeneralSolution(lines, true);
+    protected override long? FirstSolution(List<string> lines)
+    {
+        return GeneralSolution(lines, true);
+    }
 
-    protected override long? SecondSolution(List<string> lines) => GeneralSolution(lines, false);
+    protected override long? SecondSolution(List<string> lines)
+    {
+        return GeneralSolution(lines, false);
+    }
 
     private static long GeneralSolution(List<string> lines, bool isFirstSolution)
     {
@@ -16,6 +22,7 @@ public class Solution2015Dec13 : Solution<long?>
             relationships.AddRange(guests.Select(guest => new Relationship($"{guest} . . 0 Me")));
             guests.Add("Me");
         }
+
         var happiness = relationships.ToDictionary(r => r.Person + r.Neighbor, r => r.IncrementalHappiness);
         var permutations = Utilities.GetPermutations(guests);
         var arrangements = permutations.Select(list =>
@@ -30,7 +37,7 @@ public class Solution2015Dec13 : Solution<long?>
         }).ToList();
         return Utilities.FindMaxMinLookup(arrangements, happiness);
     }
-    
+
     private class Relationship
     {
         public Relationship(string input)
@@ -38,11 +45,11 @@ public class Solution2015Dec13 : Solution<long?>
             var chunks = input.Split(" ");
             Person = chunks[0];
             Neighbor = chunks[^1].Trim('.');
-            IncrementalHappiness = long.Parse(chunks[3]) * (chunks[2] == "gain" ? 1 : -1);
+            IncrementalHappiness = long.Read(chunks[3]) * (chunks[2] == "gain" ? 1 : -1);
         }
 
-        public string Person  { get; }
-        public string Neighbor  { get; }
+        public string Person { get; }
+        public string Neighbor { get; }
         public long IncrementalHappiness { get; }
     }
 }

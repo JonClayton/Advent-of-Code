@@ -1,22 +1,28 @@
-using System.Numerics;
-using AdventOfCode.Maps;
-
 namespace AdventOfCode.Solutions2015;
 
 public class Solution2015Dec18 : Solution<long?>
 {
+    private HashSet<Vector2> _corners = [];
     private Map<Location<bool>, bool> _lightGrid = null!;
 
-    private HashSet<Vector2> _corners = [];
+    protected override long? FirstSolution(List<string> lines)
+    {
+        return GeneralSolution(lines, true);
+    }
 
-    protected override long? FirstSolution(List<string> lines) => GeneralSolution(lines, true);
-
-    protected override long? SecondSolution(List<string> lines) => GeneralSolution(lines, false);
+    protected override long? SecondSolution(List<string> lines)
+    {
+        return GeneralSolution(lines, false);
+    }
 
     private long GeneralSolution(List<string> lines, bool isFirstSolution)
     {
         _lightGrid = new Map<Location<bool>, bool>(lines, c => new Location<bool>(c == '#'), true);
-        _corners = [Vector2.Zero,Vector2.UnitX * (_lightGrid.XRange - 1), Vector2.UnitY * (_lightGrid.YRange - 1), Vector2.UnitX * (_lightGrid.XRange - 1) + Vector2.UnitY * (_lightGrid.YRange - 1)];
+        _corners =
+        [
+            Vector2.Zero, Vector2.UnitX * (_lightGrid.XRange - 1), Vector2.UnitY * (_lightGrid.YRange - 1),
+            Vector2.UnitX * (_lightGrid.XRange - 1) + Vector2.UnitY * (_lightGrid.YRange - 1)
+        ];
         if (!isFirstSolution)
             foreach (var vector in _corners)
                 _lightGrid.Locations[vector].Value = true;
@@ -35,9 +41,10 @@ public class Solution2015Dec18 : Solution<long?>
     {
         return _lightGrid.Locations.Values.Where(IsStateChanged)
             .Select(location => location.Coordinates).ToList();
+
         bool IsStateChanged(Location<bool> location)
         {
-            if (!isFirst && _corners.Contains(location.Coordinates)) 
+            if (!isFirst && _corners.Contains(location.Coordinates))
                 return !location.Value;
             var countNeighborsOn = location.Neighbors.Values.Count(neighbor => neighbor.Value);
             if (countNeighborsOn == 3) return !location.Value;

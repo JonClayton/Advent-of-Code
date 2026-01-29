@@ -25,9 +25,9 @@ public static class AdventOfCode2015
         new Solution2015Dec19().Run(true); // this one doesn't finish at all!
         new Solution2015Dec20().Run(true);
         new Solution2015Dec21().Run();
-        new Solution2015Dec22().Run();
-        // new Solution2015Dec23().Run();
-        // new Solution2015Dec24().Run();
-        // new Solution2015Dec25().Run();
+        new Solution2015Dec22().Run(true);
+        new Solution2015Dec23().Run(true);
+        new Solution2015Dec24().Run(true);
+        new Solution2015Dec25().Run(true);
     }
 }

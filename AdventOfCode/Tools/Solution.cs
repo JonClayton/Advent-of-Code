@@ -1,20 +1,16 @@
 ﻿using System.Diagnostics;
 using System.Text.Json;
-using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Tools;
 
 public abstract partial class Solution<TType>
 {
-    [GeneratedRegex(@"^Solution\d{4}Dec\d{2}$")]
-    private static partial Regex MyRegex();
-
     private readonly List<string> _puzzleInput;
     private readonly string _solutionName;
     private readonly Stopwatch _stopWatch = new();
     private readonly List<TType> _test1ExpectedList;
-    private readonly List<TType> _test2ExpectedList;
     private readonly List<List<string>> _test1InputsList;
+    private readonly List<TType> _test2ExpectedList;
     private readonly List<List<string>> _test2InputsList;
 
     protected Solution()
@@ -35,9 +31,12 @@ public abstract partial class Solution<TType>
         _test2InputsList = string.IsNullOrEmpty(inputs.TestInput)
             ? inputs.Test2Inputs.Select(input => input.Split("\n").ToList()).ToList()
             : _test1InputsList;
-        if (_test1InputsList.Count==0) _test1InputsList.Add(inputs.Test1Input.Split("\n").ToList());
-        if (_test2InputsList.Count==0) _test2InputsList.Add(inputs.Test2Input.Split("\n").ToList());
+        if (_test1InputsList.Count == 0) _test1InputsList.Add(inputs.Test1Input.Split("\n").ToList());
+        if (_test2InputsList.Count == 0) _test2InputsList.Add(inputs.Test2Input.Split("\n").ToList());
     }
+
+    [GeneratedRegex(@"^Solution\d{4}Dec\d{2}$")]
+    private static partial Regex MyRegex();
 
     public void Run(bool skip = false)
     {
@@ -46,6 +45,7 @@ public abstract partial class Solution<TType>
             ConsoleInColor("Skipping because this puzzle takes meaningful time to run", ConsoleColor.Yellow);
             return;
         }
+
         if (!TrySolution(true, out var firstSolution)) return;
         if (TrySolution(false, out var secondSolution))
         {
@@ -62,6 +62,7 @@ public abstract partial class Solution<TType>
 
     protected abstract TType FirstSolution(List<string> lines);
     protected abstract TType SecondSolution(List<string> lines);
+
     protected virtual void SolutionReset()
     {
     }
@@ -82,13 +83,13 @@ public abstract partial class Solution<TType>
         {
             var path = $"../../../../inputs/{_solutionName[8..12]}/inputs_{_solutionName[15..17]}.json";
             result = JsonSerializer.Deserialize<Inputs<TType>>(File.ReadAllText(path)) ?? result;
-            result.Day = int.Parse(_solutionName[15..17]);
+            result.Day = int.Read(_solutionName[15..17]);
             if (result.Test1Result is null && result.Test1Results is null)
                 throw new ArgumentException("test_1_result and test_1_results cannot both be null");
             if (result.Test2Result is null && result.Test2Results is null)
                 throw new ArgumentException("test_2_result and test_2_results cannot both be null");
-            if (string.IsNullOrEmpty(result.TestInput) 
-                && ((result.Test1Inputs.Count == 0 && string.IsNullOrEmpty(result.Test1Input)) 
+            if (string.IsNullOrEmpty(result.TestInput)
+                && ((result.Test1Inputs.Count == 0 && string.IsNullOrEmpty(result.Test1Input))
                     || (result.Test2Inputs.Count == 0 && string.IsNullOrEmpty(result.Test2Input))))
                 throw new ArgumentException("test input must be present");
         }
@@ -105,9 +106,12 @@ public abstract partial class Solution<TType>
         return result;
     }
 
-    private void ReportFailedTest(bool isPart1, TType result, TType expectedResult, int iteration) => ConsoleInColor(
-        $"Test for {_solutionName} part {(isPart1 ? 1 : 2)}: failed with actual={result} and expected={expectedResult}{(iteration > 0 ? $" on example #{iteration + 1}" : string.Empty)}",
-        ConsoleColor.Red);
+    private void ReportFailedTest(bool isPart1, TType result, TType expectedResult, int iteration)
+    {
+        ConsoleInColor(
+            $"Test for {_solutionName} part {(isPart1 ? 1 : 2)}: failed with actual={result} and expected={expectedResult}{(iteration > 0 ? $" on example #{iteration + 1}" : string.Empty)}",
+            ConsoleColor.Red);
+    }
 
     private bool TrySolution(bool isPart1, out TType result)
     {
@@ -119,11 +123,11 @@ public abstract partial class Solution<TType>
             SolutionReset();
             result = solution(inputs[i]);
             var expected = expectedList[i];
-            if (result.Equals(expected)) continue;
+            if (result != null && result.Equals(expected)) continue;
             ReportFailedTest(isPart1, result, expected, i);
             return false;
         }
-        
+
         SolutionReset();
         _stopWatch.Start();
         result = solution(_puzzleInput);

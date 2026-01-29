@@ -1,12 +1,16 @@
-using System.Text;
-
 namespace AdventOfCode.Solutions2015;
 
 public class Solution2015Dec10 : Solution<long?>
 {
-    protected override long? FirstSolution(List<string> lines) => GeneralSolution(lines, true);
+    protected override long? FirstSolution(List<string> lines)
+    {
+        return GeneralSolution(lines, true);
+    }
 
-    protected override long? SecondSolution(List<string> lines) => GeneralSolution(lines, false);
+    protected override long? SecondSolution(List<string> lines)
+    {
+        return GeneralSolution(lines, false);
+    }
 
     private static long GeneralSolution(List<string> lines, bool isFirstSolution)
     {
@@ -18,6 +22,7 @@ public class Solution2015Dec10 : Solution<long?>
             str = LookAndSay(str);
             i++;
         }
+
         return str.Length;
     }
 
@@ -27,17 +32,18 @@ public class Solution2015Dec10 : Solution<long?>
         var counter = 0;
         var last = 'X';
         foreach (var c in str)
-        {
-            if (c == last) counter++;
+            if (c == last)
+            {
+                counter++;
+            }
             else
             {
-                if (counter > 0) builder.Append($"{counter}{last}");
+                if (counter > 0) builder.Append(CultureInfo.InvariantCulture, $"{counter}{last}");
                 counter = 1;
                 last = c;
             }
-        }
 
-        builder.Append($"{counter}{last}");
+        builder.Append(CultureInfo.InvariantCulture, $"{counter}{last}");
         return builder.ToString();
     }
 }

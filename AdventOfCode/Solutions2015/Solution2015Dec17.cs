@@ -1,17 +1,21 @@
-using System.Security.Cryptography.X509Certificates;
-
 namespace AdventOfCode.Solutions2015;
 
 public class Solution2015Dec17 : Solution<long?>
 {
-    protected override long? FirstSolution(List<string> lines) => GeneralSolution(lines, true);
+    protected override long? FirstSolution(List<string> lines)
+    {
+        return GeneralSolution(lines, true);
+    }
 
-    protected override long? SecondSolution(List<string> lines) => GeneralSolution(lines, false);
+    protected override long? SecondSolution(List<string> lines)
+    {
+        return GeneralSolution(lines, false);
+    }
 
     private static long GeneralSolution(List<string> lines, bool isFirstSolution)
     {
         var liters = lines.Count > 5 ? 150 : 25;
-        var sizes = lines.Select(int.Parse).ToList();
+        var sizes = lines.Select(int.Read).ToList();
         if (isFirstSolution) return EvaluateTree(sizes, liters);
         var unitLimit = 0;
         while (true)

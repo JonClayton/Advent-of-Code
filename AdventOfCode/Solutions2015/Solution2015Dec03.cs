@@ -1,5 +1,3 @@
-using System.Numerics;
-
 namespace AdventOfCode.Solutions2015;
 
 public class Solution2015Dec03 : Solution<long?>
@@ -11,14 +9,23 @@ public class Solution2015Dec03 : Solution<long?>
         { '>', Vector2.UnitX },
         { '<', -Vector2.UnitX }
     };
-    
-    protected override long? FirstSolution(List<string> lines) => GeneralSolution(lines, -1);
 
-    protected override long? SecondSolution(List<string> lines) => GeneralSolution(lines, -2);
+    protected override long? FirstSolution(List<string> lines)
+    {
+        return GeneralSolution(lines, -1);
+    }
 
-    private static long GeneralSolution(List<string> lines, int index) => lines.First()
-        .Aggregate(new List<Vector2> { Vector2.Zero, Vector2.Zero },
-            (agg, location) => LocationAggregator(agg, location, index)).ToHashSet().Count;
+    protected override long? SecondSolution(List<string> lines)
+    {
+        return GeneralSolution(lines, -2);
+    }
+
+    private static long GeneralSolution(List<string> lines, int index)
+    {
+        return lines.First()
+            .Aggregate(new List<Vector2> { Vector2.Zero, Vector2.Zero },
+                (agg, location) => LocationAggregator(agg, location, index)).ToHashSet().Count;
+    }
 
     private static List<Vector2> LocationAggregator(List<Vector2> locations, char move, int index)
     {

@@ -1,8 +1,6 @@
-﻿using System.Numerics;
+﻿namespace AdventOfCode.Maps;
 
-namespace AdventOfCode.Maps;
-
-public class Tools
+public static class Tools
 {
     public static readonly Dictionary<Direction, Vector2> Moves = new()
     {

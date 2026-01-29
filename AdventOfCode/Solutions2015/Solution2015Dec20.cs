@@ -2,13 +2,19 @@ namespace AdventOfCode.Solutions2015;
 
 public class Solution2015Dec20 : Solution<long?>
 {
-    protected override long? FirstSolution(List<string> lines) => GeneralSolution(lines, true);
+    protected override long? FirstSolution(List<string> lines)
+    {
+        return GeneralSolution(lines, true);
+    }
 
-    protected override long? SecondSolution(List<string> lines) => GeneralSolution(lines, false);
+    protected override long? SecondSolution(List<string> lines)
+    {
+        return GeneralSolution(lines, false);
+    }
 
     private static long GeneralSolution(List<string> lines, bool isFirstSolution)
     {
-        var target = long.Parse(lines[0]);
+        var target = long.Parse(lines[0], CultureInfo.InvariantCulture);
         var house = 0;
         while (true)
         {
@@ -18,8 +24,15 @@ public class Solution2015Dec20 : Solution<long?>
         }
     }
 
-    private static long FirstScore(long num) => Utilities.Factor(num).Select(factor => num / factor * 10).Sum();
-    private static long SecondScore(long num) => FactorsWithComplementUnder50(num).Select(factor => factor * 11).Sum();
+    private static long FirstScore(long num)
+    {
+        return Utilities.Factor(num).Select(factor => num / factor * 10).Sum();
+    }
+
+    private static long SecondScore(long num)
+    {
+        return FactorsWithComplementUnder50(num).Select(factor => factor * 11).Sum();
+    }
 
     private static List<long> FactorsWithComplementUnder50(long num)
     {
@@ -32,6 +45,7 @@ public class Solution2015Dec20 : Solution<long?>
                 factors.Add(complement);
                 if (complement <= 50 && complement != i) factors.Add(i);
             }
+
         return factors;
     }
 }

@@ -14,7 +14,7 @@ public class Inputs<TType>
 
     [JsonPropertyName("test_1_input")]
     public string Test1Input { get; init; } = string.Empty;
-    
+
     [JsonPropertyName("test_1_inputs")]
     public List<string> Test1Inputs { get; init; } = [];
 
@@ -25,14 +25,14 @@ public class Inputs<TType>
     public List<string> Test2Inputs { get; init; } = [];
 
     [JsonPropertyName("test_1_result")]
-    public TType Test1Result { get; init; }
-    
+    public TType? Test1Result { get; init; }
+
     [JsonPropertyName("test_1_results")]
     public List<TType> Test1Results { get; init; } = [];
 
     [JsonPropertyName("test_2_result")]
-    public TType Test2Result { get; init; } 
-    
+    public TType? Test2Result { get; init; }
+
     [JsonPropertyName("test_2_results")]
-    public List<TType> Test2Results { get; init; }  = [];
+    public List<TType> Test2Results { get; init; } = [];
 }

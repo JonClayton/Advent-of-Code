@@ -2,9 +2,15 @@ namespace AdventOfCode.Solutions2015;
 
 public class Solution2015Dec09 : Solution<long?>
 {
-    protected override long? FirstSolution(List<string> lines) => GeneralSolution(lines, true);
+    protected override long? FirstSolution(List<string> lines)
+    {
+        return GeneralSolution(lines, true);
+    }
 
-    protected override long? SecondSolution(List<string> lines) => GeneralSolution(lines, false);
+    protected override long? SecondSolution(List<string> lines)
+    {
+        return GeneralSolution(lines, false);
+    }
 
     private static long GeneralSolution(List<string> lines, bool isFirstSolution)
     {
@@ -27,11 +33,11 @@ public class Solution2015Dec09 : Solution<long?>
         public CityPair(string input)
         {
             var chunks = input.Split(" = ");
-            Distance = long.Parse(chunks[1]);
+            Distance = long.Parse(chunks[1], CultureInfo.InvariantCulture);
             Cities = chunks[0].Split(" to ").ToList();
         }
 
-        public List<string> Cities  { get; }
+        public List<string> Cities { get; }
         public long Distance { get; }
     }
 }
