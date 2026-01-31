@@ -6,17 +6,21 @@ namespace AdventOfCode.Tools;
 public abstract partial class Solution<TType>
 {
     private readonly List<string> _puzzleInput;
-    private readonly string _solutionName;
+    private readonly string _solutionDay;
+    private readonly string _solutionYear;
     private readonly Stopwatch _stopWatch = new();
     private readonly List<TType> _test1ExpectedList;
     private readonly List<List<string>> _test1InputsList;
     private readonly List<TType> _test2ExpectedList;
     private readonly List<List<string>> _test2InputsList;
 
-    protected Solution()
+    protected Solution(bool skip = false)
     {
-        _solutionName = GetType().Name;
-        ConsoleInColor($"Solving {_solutionName}", ConsoleColor.Blue);
+        var fullName = GetType().FullName;
+        if (!FullNameRegex().IsMatch(fullName ?? throw new InvalidOperationException()))
+            throw new ArgumentException("Invalid solution class name, must be \"AdventOfCode.Solutions####.Day##\"");
+        _solutionDay = fullName[^2..];
+        _solutionYear = fullName.Split('.')[^2][^4..];
         var inputs = GetInputs();
         _puzzleInput = inputs.PuzzleInput.Split("\n").ToList();
         _test1ExpectedList = inputs.Test1Result is not null
@@ -35,29 +39,25 @@ public abstract partial class Solution<TType>
         if (_test2InputsList.Count == 0) _test2InputsList.Add(inputs.Test2Input.Split("\n").ToList());
     }
 
-    [GeneratedRegex(@"^Solution\d{4}Dec\d{2}$")]
-    private static partial Regex MyRegex();
-
     public void Run(bool skip = false)
     {
         if (skip)
         {
-            ConsoleInColor("Skipping because this puzzle takes meaningful time to run", ConsoleColor.Yellow);
+            ConsoleInColor("Skipping this puzzle", ConsoleColor.Yellow);
             return;
         }
-
+        
         if (!TrySolution(true, out var firstSolution)) return;
         if (TrySolution(false, out var secondSolution))
         {
             ConsoleInColor(
-                $"{_solutionName} solved in {_stopWatch.ElapsedMilliseconds}ms: first = {firstSolution} and second = {secondSolution}",
+                $"Day{_solutionDay} solved in {_stopWatch.ElapsedMilliseconds}ms: part 1 = {firstSolution}, part 2 = {secondSolution}",
                 ConsoleColor.DarkGreen);
             return;
         }
 
-        ConsoleInColor(
-            $"{_solutionName} part 1 solved in {_stopWatch.ElapsedMilliseconds}ms with solution: {firstSolution}",
-            ConsoleColor.Yellow);
+        ConsoleInColor($"Solution Day{_solutionDay} part 1: {firstSolution}", ConsoleColor.Yellow);
+        ConsoleInColor($"Run time: {_stopWatch.ElapsedMilliseconds}ms", ConsoleColor.Yellow);
     }
 
     protected abstract TType FirstSolution(List<string> lines);
@@ -74,16 +74,18 @@ public abstract partial class Solution<TType>
         Console.ResetColor();
     }
 
+    [GeneratedRegex(@"^AdventOfCode.Solutions\d{4}.Day\d{2}$")]
+    private static partial Regex FullNameRegex();
+
     private Inputs<TType> GetInputs()
     {
         var result = new Inputs<TType>();
-        if (!MyRegex().IsMatch(_solutionName))
-            throw new ArgumentException("Invalid solution class name, must be 'Solution####Dec##'");
+
         try
         {
-            var path = $"../../../../inputs/{_solutionName[8..12]}/inputs_{_solutionName[15..17]}.json";
+            var path = $"../../../../inputs/{_solutionYear}/{_solutionDay}.json";
             result = JsonSerializer.Deserialize<Inputs<TType>>(File.ReadAllText(path)) ?? result;
-            result.Day = int.Read(_solutionName[15..17]);
+            result.Day = int.Read(_solutionDay);
             if (result.Test1Result is null && result.Test1Results is null)
                 throw new ArgumentException("test_1_result and test_1_results cannot both be null");
             if (result.Test2Result is null && result.Test2Results is null)
@@ -95,11 +97,11 @@ public abstract partial class Solution<TType>
         }
         catch (DirectoryNotFoundException)
         {
-            ConsoleInColor($"Directory {_solutionName[8..12]} not found in inputs directory", ConsoleColor.Red);
+            ConsoleInColor($"Directory {_solutionYear} not found in inputs directory", ConsoleColor.Red);
         }
         catch (FileNotFoundException)
         {
-            ConsoleInColor($"File 'inputs_{_solutionName[15..17]}.json' not found in inputs directory",
+            ConsoleInColor($"File '{_solutionDay}.json' not found in inputs directory",
                 ConsoleColor.Red);
         }
 
@@ -109,7 +111,7 @@ public abstract partial class Solution<TType>
     private void ReportFailedTest(bool isPart1, TType result, TType expectedResult, int iteration)
     {
         ConsoleInColor(
-            $"Test for {_solutionName} part {(isPart1 ? 1 : 2)}: failed with actual={result} and expected={expectedResult}{(iteration > 0 ? $" on example #{iteration + 1}" : string.Empty)}",
+            $"Test for Day{_solutionDay} part {(isPart1 ? 1 : 2)}: failed with actual={result} and expected={expectedResult}{(iteration > 0 ? $" on example #{iteration + 1}" : string.Empty)}",
             ConsoleColor.Red);
     }
 
