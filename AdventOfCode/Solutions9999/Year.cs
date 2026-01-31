@@ -1,5 +1,3 @@
-global using AdventOfCode.Solutions2015.RPG;
-
 namespace AdventOfCode.Solutions9999;
 
 public class Year : YearBase
